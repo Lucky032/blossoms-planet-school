@@ -1,0 +1,104 @@
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <!-- Section Heading -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">
+                What Parents Say
+            </h2>
+
+            <p class="text-muted">
+                Trusted by hundreds of happy parents.
+            </p>
+        </div>
+
+        <!-- Reviews -->
+        <div class="row g-4">
+
+            {% for review in reviews %}
+
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <!-- Review Content -->
+                    <div class="card-body">
+
+                        <!-- Rating -->
+                        <div class="text-warning mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    ⭐
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Review Text -->
+                        <p class="mb-0">
+                            "{{ review.review }}"
+                        </p>
+
+                    </div>
+
+                    <!-- Parent Information -->
+                    <div class="card-footer bg-white border-0">
+
+                        <div class="d-flex align-items-center">
+
+                            <!-- Parent Photo -->
+                            {% if review.photo %}
+                                <img
+                                    src="/media/reviews/Laxman-min.jpg"
+                                    width="60"
+                                    height="60"
+                                    class="rounded-circle me-3"
+                                    alt="{{ review.parent_name }}"
+                                    style="width: 60px; height: 60px; object-fit: cover;">
+                            {% else %}
+                                <div
+                                    class="rounded-circle me-3 d-flex align-items-center justify-content-center bg-secondary text-white"
+                                    style="width: 60px; height: 60px;">
+                                    <span>👤</span>
+                                </div>
+                            {% endif %}
+
+                            <!-- Parent Details -->
+                            <div>
+                                <strong>
+                                    {{ review.parent_name }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    Parent of {{ review.student_name }}
+                                </small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <!-- No Reviews -->
+            <div class="col-12 text-center">
+
+                <p class="text-muted">
+                    Testimonials will be updated soon.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>

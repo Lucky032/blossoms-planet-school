@@ -1,0 +1,184 @@
+{% extends "admin/base_site.html" %}
+
+{% load static %}
+
+{% block title %}
+    Login | Blossoms Planet School
+{% endblock %}
+
+{% block extrastyle %}
+
+{{ block.super }}
+
+<link rel="stylesheet"
+      href="{% static 'css/admin/login.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="blossoms-login-page">
+
+    <div class="blossoms-login-card">
+
+
+        <!-- Logo -->
+
+        <div class="blossoms-login-logo">
+            🌸
+        </div>
+
+
+        <!-- School Name -->
+
+        <h1 class="blossoms-login-school">
+            Blossoms Planet School
+        </h1>
+
+        <p class="blossoms-login-subtitle">
+            School Management System
+        </p>
+
+
+        <!-- Welcome -->
+
+        <div class="blossoms-login-heading">
+
+            <h2>
+                Welcome Back 👋
+            </h2>
+
+            <p>
+                Sign in to manage your school
+            </p>
+
+        </div>
+
+
+        <!-- Error -->
+
+        {% if form.errors and not form.non_field_errors %}
+
+            <div class="blossoms-login-error">
+                Please enter a valid username and password.
+            </div>
+
+        {% endif %}
+
+
+        {% if form.non_field_errors %}
+
+            <div class="blossoms-login-error">
+
+                {% for error in form.non_field_errors %}
+
+                    {{ error }}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Login Form -->
+
+        <form method="post"
+              action="{{ app_path }}"
+              class="blossoms-login-form">
+
+            {% csrf_token %}
+
+            <input type="hidden"
+                   name="next"
+                   value="{{ next }}">
+
+
+            <!-- Username -->
+
+            <div class="blossoms-field">
+
+                <label for="id_username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    id="id_username"
+                    autocomplete="username"
+                    placeholder="Enter your username"
+                    required
+                    autofocus
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="blossoms-field">
+
+                <label for="id_password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    id="id_password"
+                    autocomplete="current-password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Login -->
+
+            <button type="submit"
+                    class="blossoms-login-button">
+
+                Login
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <!-- Password Reset -->
+
+        {% url 'admin_password_reset' as password_reset_url %}
+
+        {% if password_reset_url %}
+
+            <div class="blossoms-forgot-password">
+
+                <a href="{{ password_reset_url }}">
+                    Forgot your password?
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Footer -->
+
+        <div class="blossoms-login-footer">
+
+            © {% now "Y" %} Blossoms Planet School
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

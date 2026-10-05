@@ -1,0 +1,166 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Fee Structure
+{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+{% include "components/page_header.html" with page_icon="bi-wallet2" page_title="Fee Structure" page_subtitle="Manage class-wise fee structure." button_url="/fees/structure/add/" button_text="Add Fee Structure" %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-10">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            value="{{ search }}"
+                            placeholder="Search Class or Fee Type">
+
+                    </div>
+
+                    <div class="col-md-2 d-grid">
+
+                        <button class="btn btn-success">
+
+                            <i class="bi bi-search"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Class</th>
+
+                            <th>Fee Type</th>
+
+                            <th>Amount</th>
+
+                            <th>Description</th>
+
+                            <th width="140">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for fee in fee_structures %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ fee.school_class }}
+
+                            </td>
+
+                            <td>
+
+                                {{ fee.fee_type }}
+
+                            </td>
+
+                            <td>
+
+                                ₹ {{ fee.amount }}
+
+                            </td>
+
+                            <td>
+
+                                {{ fee.description|default:"-" }}
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'fee_structure_update' fee.id %}"
+                                    class="btn btn-sm btn-warning">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </a>
+
+                                <a
+                                    href="{% url 'fee_structure_delete' fee.id %}"
+                                    class="btn btn-sm btn-danger">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5" class="text-center py-5">
+
+                                <i class="bi bi-wallet2 display-4 text-secondary"></i>
+
+                                <h5 class="mt-3">
+
+                                    No Fee Structure Found
+
+                                </h5>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "components/pagination.html" %}
+
+</div>
+
+{% endblock %}

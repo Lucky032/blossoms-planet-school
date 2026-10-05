@@ -1,0 +1,52 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Delete Marks{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow border-danger">
+
+        <div class="card-header bg-danger text-white">
+
+            <h4 class="mb-0">
+                Delete Student Marks
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <p class="lead">
+
+                Are you sure you want to delete marks for
+
+                <strong>{{ mark.student }}</strong>
+
+                ({{ mark.exam_subject.subject }} - {{ mark.exam_subject.exam }})?
+
+            </p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button class="btn btn-danger">
+                    Yes, Delete
+                </button>
+
+                <a href="{% url 'student_mark_list' %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

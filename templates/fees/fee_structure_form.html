@@ -1,0 +1,127 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+
+                        <i class="bi bi-wallet2"></i>
+
+                        {{ title }}
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Class
+
+                                </label>
+
+                                {{ form.school_class }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Fee Type
+
+                                </label>
+
+                                {{ form.fee_type }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Amount
+
+                                </label>
+
+                                {{ form.amount }}
+
+                            </div>
+
+                            <div class="col-12 mb-3">
+
+                                <label class="form-label">
+
+                                    Description
+
+                                </label>
+
+                                {{ form.description }}
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-end">
+
+                            <a
+                                href="{% url 'fee_structure_list' %}"
+                                class="btn btn-secondary me-2">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Back
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Save Fee Structure
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

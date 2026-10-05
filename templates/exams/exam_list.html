@@ -1,0 +1,162 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Exam Management
+{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+{% include "components/page_header.html" with page_icon="bi-journal-text" page_title="Exam Management" page_subtitle="Manage school examinations." button_url="/exams/add/" button_text="Add Exam" %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-10">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            value="{{ search }}"
+                            placeholder="Search Exam Name">
+
+                    </div>
+
+                    <div class="col-md-2 d-grid">
+
+                        <button class="btn btn-success">
+
+                            <i class="bi bi-search"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Exam</th>
+                            <th>Academic Year</th>
+                            <th>Term</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th width="150">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for exam in exams %}
+
+                        <tr>
+
+                            <td>{{ exam.name }}</td>
+
+                            <td>{{ exam.academic_year }}</td>
+
+                            <td>{{ exam.get_term_display }}</td>
+
+                            <td>{{ exam.start_date }}</td>
+
+                            <td>{{ exam.end_date }}</td>
+
+                            <td>
+
+                                {% if exam.is_active %}
+
+                                    <span class="badge bg-success">Active</span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">Inactive</span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <a href="{% url 'exam_update' exam.id %}"
+                                   class="btn btn-warning btn-sm">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </a>
+
+                                <a href="{% url 'exam_delete' exam.id %}"
+                                   class="btn btn-danger btn-sm">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7" class="text-center py-5">
+
+                                <i class="bi bi-journal-text display-4 text-secondary"></i>
+
+                                <h5 class="mt-3">
+
+                                    No Exams Found
+
+                                </h5>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "components/pagination.html" %}
+
+</div>
+
+{% endblock %}

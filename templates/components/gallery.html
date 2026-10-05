@@ -1,0 +1,72 @@
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                School Gallery
+
+            </h2>
+
+            <p class="text-muted">
+
+                Explore moments from our school.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for image in gallery %}
+
+            <div class="col-md-4">
+
+                <div class="card border-0 shadow-sm">
+
+                    <img
+                        src="{{ image.image.url }}"
+                        class="card-img-top"
+                        alt="{{ image.title }}">
+
+                    <div class="card-body">
+
+                        <h5>
+
+                            {{ image.title }}
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            {{ image.description|truncatewords:15 }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+
+                <p class="text-muted">
+
+                    Gallery will be updated soon.
+
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>

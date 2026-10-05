@@ -1,0 +1,231 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Attendance
+{% endblock %}
+
+{% block content %}
+{% include "components/messages.html" %}
+<div class="container-fluid">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Attendance Records</h2>
+
+        <a href="{% url 'mark_attendance' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Mark Attendance
+        </a>
+
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body text-center">
+                    <h6>Present</h6>
+                    <h2>{{ present }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-danger text-white">
+                <div class="card-body text-center">
+                    <h6>Absent</h6>
+                    <h2>{{ absent }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-warning text-dark">
+                <div class="card-body text-center">
+                    <h6>Leave</h6>
+                    <h2>{{ leave }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body text-center">
+                    <h6>Total</h6>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Attendance Chart -->
+    <div class="card shadow mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">Attendance Overview</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-center">
+
+                <div style="width:300px; height:300px;">
+
+                    <canvas id="attendanceChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in attendance %}
+
+                        <tr>
+
+                            <td>{{ record.date }}</td>
+
+                            <td>{{ record.student }}</td>
+
+                            <td>{{ record.student.school_class }}</td>
+
+                            <td>{{ record.student.section }}</td>
+
+                            <td>
+
+                                {% if record.status == "Present" %}
+
+                                    <span class="badge bg-success">
+                                        Present
+                                    </span>
+
+                                {% elif record.status == "Absent" %}
+
+                                    <span class="badge bg-danger">
+                                        Absent
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Leave
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5" class="text-center">
+                                No attendance records found.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Chart JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('attendanceChart');
+
+new Chart(ctx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: ['Present', 'Absent', 'Leave'],
+
+        datasets: [{
+
+            data: [
+                {{ present }},
+                {{ absent }},
+                {{ leave }}
+            ],
+
+            backgroundColor: [
+                '#198754',
+                '#dc3545',
+                '#ffc107'
+            ],
+
+            borderWidth: 2
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+
+                position: 'bottom'
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

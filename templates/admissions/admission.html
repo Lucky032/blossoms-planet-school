@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admission Enquiry
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3 class="mb-0">
+                        Admission Enquiry
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post" novalidate>
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Student Name
+                                </label>
+
+                                {{ form.student_name }}
+
+                                <div class="text-danger">
+                                    {{ form.student_name.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Parent Name
+                                </label>
+
+                                {{ form.parent_name }}
+
+                                <div class="text-danger">
+                                    {{ form.parent_name.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Phone Number
+                                </label>
+
+                                {{ form.phone }}
+
+                                <div class="text-danger">
+                                    {{ form.phone.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Email Address
+                                </label>
+
+                                {{ form.email }}
+
+                                <div class="text-danger">
+                                    {{ form.email.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Gender
+                                </label>
+
+                                {{ form.gender }}
+
+                                <div class="text-danger">
+                                    {{ form.gender.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Date of Birth
+                                </label>
+
+                                {{ form.date_of_birth }}
+
+                                <div class="text-danger">
+                                    {{ form.date_of_birth.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Applying For Class
+                                </label>
+
+                                {{ form.applying_for_class }}
+
+                                <div class="text-danger">
+                                    {{ form.applying_for_class.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 mb-3">
+
+                                <label class="form-label">
+                                    Address
+                                </label>
+
+                                {{ form.address }}
+
+                                <div class="text-danger">
+                                    {{ form.address.errors }}
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 mb-4">
+
+                                <label class="form-label">
+                                    Additional Message
+                                </label>
+
+                                {{ form.message }}
+
+                                <div class="text-danger">
+                                    {{ form.message.errors }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="text-end">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg">
+
+                                Submit Admission Enquiry
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

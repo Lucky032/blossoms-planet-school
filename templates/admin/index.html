@@ -1,0 +1,146 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n static %}
+
+{% block content %}
+
+<div class="blossoms-dashboard">
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+
+        <div>
+            <h1>Welcome back, {{ user.get_full_name|default:user.username }} 👋</h1>
+
+            <p>
+                Manage your school operations from one place.
+            </p>
+        </div>
+
+        <div class="welcome-icon">
+            🌸
+        </div>
+
+    </div>
+
+
+    <!-- Quick Access -->
+
+    <div class="section-heading">
+        <h2>Quick Access</h2>
+        <p>Manage your school efficiently.</p>
+    </div>
+
+
+    <div class="quick-grid">
+
+        <a href="{% url 'admin:academics_student_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon student-icon">
+                👨‍🎓
+            </div>
+
+            <div>
+                <h3>Students</h3>
+                <p>Manage student records</p>
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'admin:staff_staff_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon teacher-icon">
+                👨‍🏫
+            </div>
+
+            <div>
+                <h3>Staff</h3>
+                <p>Manage teachers and staff</p>
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'admin:attendance_attendance_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon attendance-icon">
+                📅
+            </div>
+
+            <div>
+                <h3>Attendance</h3>
+                <p>Manage daily attendance</p>
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'admin:fees_feecollection_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon fees-icon">
+                💰
+            </div>
+
+            <div>
+                <h3>Fees</h3>
+                <p>Manage fee collections</p>
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'admin:exams_exam_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon exam-icon">
+                📝
+            </div>
+
+            <div>
+                <h3>Exams</h3>
+                <p>Manage examinations</p>
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'admin:reviews_review_changelist' %}"
+           class="quick-card">
+
+            <div class="quick-icon review-icon">
+                ⭐
+            </div>
+
+            <div>
+                <h3>Reviews</h3>
+                <p>Manage parent reviews</p>
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- Django Admin Applications -->
+
+    <div class="section-heading admin-section-heading">
+
+        <h2>Administration</h2>
+
+        <p>
+            Manage all school modules and settings.
+        </p>
+
+    </div>
+
+
+    {{ block.super }}
+
+</div>
+
+{% endblock %}

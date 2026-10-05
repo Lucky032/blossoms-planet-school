@@ -1,0 +1,460 @@
+body{
+
+    background:#f8f9fa;
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+main{
+
+    min-height:80vh;
+
+}
+
+.navbar{
+
+    padding:15px 0;
+
+}
+
+.navbar-brand{
+
+    font-weight:700;
+    font-size:24px;
+
+}
+
+.card{
+
+    transition:0.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+footer{
+
+    margin-top:60px;
+
+}
+
+section{
+
+    overflow:hidden;
+
+}
+.card-img-top{
+
+    height:220px;
+    object-fit:cover;
+
+}
+
+.hero-image{
+
+    max-height:500px;
+    object-fit:cover;
+
+}
+
+/* =========================================================
+   BLOSSOMS PLANET SCHOOL
+   HERO BANNER
+   ========================================================= */
+
+.blossoms-hero {
+    width: 100%;
+    overflow: hidden;
+    background: #1677f2;
+}
+
+
+/* Banner wrapper */
+
+.blossoms-hero-image-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    max-width: 1920px;
+
+    margin: 0 auto;
+
+    line-height: 0;
+}
+
+
+/* Banner image */
+
+.blossoms-hero-image {
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   CLICKABLE AREA - CONTACT
+   ========================================================= */
+
+.hero-contact-link {
+    position: absolute;
+
+    left: 5.4%;
+
+    top: 57.2%;
+
+    width: 17%;
+
+    height: 8.5%;
+
+    display: block;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   CLICKABLE AREA - ADMISSIONS
+   ========================================================= */
+
+.hero-admission-link {
+    position: absolute;
+
+    left: 23.2%;
+
+    top: 57.2%;
+
+    width: 16.5%;
+
+    height: 8.5%;
+
+    display: block;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   HOVER EFFECT
+   ========================================================= */
+
+.hero-contact-link:hover,
+.hero-admission-link:hover {
+    background:
+        rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 992px) {
+
+    .hero-contact-link {
+        left: 5.5%;
+
+        top: 57%;
+
+        width: 18%;
+
+        height: 9%;
+    }
+
+    .hero-admission-link {
+        left: 24%;
+
+        top: 57%;
+
+        width: 18%;
+
+        height: 9%;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .blossoms-hero-image {
+        min-height: 430px;
+
+        object-fit: cover;
+
+        object-position: center;
+    }
+
+    /*
+       On small screens the generated banner is still
+       displayed as one complete visual.
+    */
+
+    .hero-contact-link {
+        left: 5%;
+
+        top: 57%;
+
+        width: 30%;
+
+        height: 9%;
+    }
+
+    .hero-admission-link {
+        left: 36%;
+
+        top: 57%;
+
+        width: 30%;
+
+        height: 9%;
+    }
+}
+
+/* =========================================================
+   BLOSSOMS PLANET SCHOOL
+   MAIN NAVBAR
+   ========================================================= */
+
+.blossoms-navbar {
+    min-height: 70px;
+
+    background:
+        #1677f2 !important;
+
+    padding:
+        10px 0 !important;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.10) !important;
+}
+
+
+/* =========================================================
+   SCHOOL NAME
+   ========================================================= */
+
+.blossoms-brand {
+    color: #ffffff !important;
+
+    font-size: 24px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: -0.4px;
+
+    line-height: 1;
+
+    text-decoration: none !important;
+
+    white-space: nowrap;
+}
+
+.blossoms-brand:hover {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   NAVIGATION CONTAINER
+   ========================================================= */
+
+.blossoms-nav {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-left: auto;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.blossoms-nav-link {
+    position: relative;
+
+    display: flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding:
+        8px 14px !important;
+
+    color:
+        rgba(255, 255, 255, 0.92) !important;
+
+    font-size: 16px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.2;
+
+    border-radius: 8px;
+
+    text-decoration: none !important;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.blossoms-nav-link:hover {
+    color: #ffffff !important;
+
+    background:
+        rgba(255, 255, 255, 0.13);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   ACTIVE PAGE
+   ========================================================= */
+
+.blossoms-nav-link.active {
+    color: #ffffff !important;
+
+    font-weight: 800 !important;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+}
+
+
+/* =========================================================
+   ACTIVE UNDERLINE
+   ========================================================= */
+
+.blossoms-nav-link.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+
+    right: 14px;
+
+    bottom: 3px;
+
+    height: 3px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   MOBILE TOGGLER
+   ========================================================= */
+
+.blossoms-navbar .navbar-toggler {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.45) !important;
+
+    border-radius: 8px;
+
+    padding: 6px 9px;
+}
+
+.blossoms-navbar .navbar-toggler:focus {
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 255, 255, 0.15) !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .blossoms-navbar {
+        padding:
+            10px 0 !important;
+    }
+
+    .blossoms-brand {
+        font-size:
+            20px !important;
+    }
+
+    .blossoms-nav {
+        width: 100%;
+
+        align-items:
+            stretch;
+
+        gap:
+            3px;
+
+        margin-top:
+            12px;
+
+        padding-bottom:
+            8px;
+    }
+
+    .blossoms-nav-link {
+        justify-content:
+            flex-start;
+
+        padding:
+            11px 14px !important;
+    }
+
+    .blossoms-nav-link.active::after {
+        left:
+            14px;
+
+        right:
+            auto;
+
+        width:
+            38px;
+
+        bottom:
+            5px;
+    }
+
+}

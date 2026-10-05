@@ -1,0 +1,111 @@
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                What Parents Say
+
+            </h2>
+
+            <p class="text-muted">
+
+                Trusted by hundreds of happy parents.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for review in reviews %}
+
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-warning mb-3">
+
+                            {% for i in "12345" %}
+
+                                {% if forloop.counter <= review.rating %}
+
+                                    ⭐
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        <p>
+
+                            "{{ review.review }}"
+
+                        </p>
+
+                    </div>
+
+                    <div class="card-footer bg-white border-0">
+
+                        <div class="d-flex align-items-center">
+
+                            {% if .photo %}
+review
+                            <img
+                                src="{{ review.photo.url }}"
+                                width="60"
+                                height="60"
+                                class="rounded-circle me-3">
+
+                            {% endif %}
+
+                            <div>
+
+                                <strong>
+
+                                    {{ review.parent_name }}
+
+                                </strong>
+
+                                <br>
+
+                                <small>
+
+                                    Parent of {{ review.student_name }}
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+
+                <p class="text-muted">
+
+                    review will be updated soon.
+
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,132 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% include "components/messages.html" %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        <i class="bi bi-calendar-plus"></i>
+                        {{ title }}
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Academic Year
+                            </label>
+
+                            {{ form.name }}
+
+                            {% if form.name.errors %}
+                                <div class="text-danger small">
+                                    {{ form.name.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Start Date
+                                </label>
+
+                                {{ form.start_date }}
+
+                                {% if form.start_date.errors %}
+                                    <div class="text-danger small">
+                                        {{ form.start_date.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    End Date
+                                </label>
+
+                                {{ form.end_date }}
+
+                                {% if form.end_date.errors %}
+                                    <div class="text-danger small">
+                                        {{ form.end_date.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            {{ form.is_current }}
+
+                            <label class="form-check-label">
+                                Set as Current Academic Year
+                            </label>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+
+                            <a href="{% url 'academic_year_list' %}"
+                               class="btn btn-secondary me-2">
+
+                                <i class="bi bi-arrow-left"></i>
+                                Back
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-check-circle"></i>
+                                Save Academic Year
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

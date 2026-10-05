@@ -1,0 +1,46 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Delete Class{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-body text-center">
+
+            <h3>
+
+                Delete
+
+                <strong>{{ school_class.name }}</strong> ?
+
+            </h3>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button class="btn btn-danger">
+
+                    Yes, Delete
+
+                </button>
+
+                <a href="{% url 'class_list' %}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

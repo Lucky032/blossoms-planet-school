@@ -1,0 +1,108 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Delete Staff
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-danger">
+
+                <div class="card-header bg-danger text-white">
+
+                    <h4 class="mb-0">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        Confirm Delete
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if staff.photo %}
+
+                        <img
+                            src="{{ staff.photo.url }}"
+                            class="rounded-circle mb-3 border"
+                            style="width:120px;height:120px;object-fit:cover;">
+
+                    {% else %}
+
+                        <i class="bi bi-person-circle text-secondary"
+                           style="font-size:120px;"></i>
+
+                    {% endif %}
+
+                    <h4 class="mb-3">
+
+                        {{ staff.first_name }} {{ staff.last_name }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Employee ID :
+                        <strong>{{ staff.employee_id }}</strong>
+
+                    </p>
+
+                    <div class="alert alert-warning mt-4">
+
+                        <strong>
+
+                            Are you sure you want to delete this staff member?
+
+                        </strong>
+
+                        <br>
+
+                        This action cannot be undone.
+
+                    </div>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <a
+                            href="{% url 'staff_detail' staff.id %}"
+                            class="btn btn-secondary">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            Cancel
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger">
+
+                            <i class="bi bi-trash"></i>
+
+                            Delete Staff
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

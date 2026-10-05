@@ -1,0 +1,84 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Delete Student
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-danger">
+
+                <div class="card-header bg-danger text-white">
+
+                    <h3>
+
+                        <i class="bi bi-trash-fill"></i>
+
+                        Delete Student
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="fs-5">
+
+                        Are you sure you want to delete
+
+                        <strong>
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+
+                        </strong>?
+
+                    </p>
+
+                    <p class="text-danger">
+
+                        This action cannot be undone.
+
+                    </p>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger">
+
+                            <i class="bi bi-trash-fill"></i>
+
+                            Delete
+
+                        </button>
+
+                        <a
+                            href="{% url 'student_list' %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

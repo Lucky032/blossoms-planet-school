@@ -1,0 +1,123 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Pending Teacher Approvals{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="fas fa-user-clock text-warning"></i>
+            Pending Teacher Approvals
+        </h2>
+
+        <span class="badge bg-warning text-dark fs-6">
+            {{ teachers.count }} Pending
+        </span>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show">
+                {{ message }}
+                <button class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            {% if teachers %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for teacher in teachers %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            {{ teacher.user.first_name }}
+                            {{ teacher.user.last_name }}
+                        </td>
+
+                        <td>{{ teacher.user.username }}</td>
+
+                        <td>{{ teacher.user.email }}</td>
+
+                        <td>{{ teacher.user.date_joined|date:"d M Y" }}</td>
+
+                        <td class="text-center">
+
+                            <a href="{% url 'approve_teacher' teacher.user.id %}"
+                               class="btn btn-success btn-sm">
+                                Review & Approve
+
+                            </a>
+
+                            <a href="{% url 'reject_teacher' teacher.user.id %}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Reject this teacher account?')">
+
+                                <i class="fas fa-times"></i>
+                                Reject
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
+
+                <h4>No Pending Teachers</h4>
+
+                <p class="text-muted">
+                    All teacher accounts have been reviewed.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

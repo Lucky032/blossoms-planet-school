@@ -1,0 +1,104 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% include "components/messages.html" %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-book"></i>
+                        {{ title }}
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Subject Name
+                            </label>
+
+                            {{ form.name }}
+
+                            {% if form.name.errors %}
+                                <div class="text-danger small">
+                                    {{ form.name.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Subject Code
+                            </label>
+
+                            {{ form.code }}
+
+                            <div class="form-text">
+                                Example: MATH101, ENG101, SCI101
+                            </div>
+
+                            {% if form.code.errors %}
+                                <div class="text-danger small">
+                                    {{ form.code.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+
+                            <a href="{% url 'subject_list' %}"
+                               class="btn btn-secondary me-2">
+
+                                <i class="bi bi-arrow-left"></i>
+                                Back
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-check-circle"></i>
+                                Save Subject
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

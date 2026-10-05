@@ -1,0 +1,431 @@
+/* =========================================================
+   BLOSSOMS PLANET SCHOOL
+   ADMIN LOGIN PAGE
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+body.login {
+    background:
+        linear-gradient(
+            135deg,
+            #f5f3ff 0%,
+            #f8f9ff 50%,
+            #eef1ff 100%
+        ) !important;
+
+    min-height: 100vh;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   REMOVE DJANGO DEFAULT LOGIN STYLING
+   ========================================================= */
+
+body.login #header {
+    display: none !important;
+}
+
+body.login #nav-sidebar {
+    display: none !important;
+}
+
+body.login #content {
+    margin: 0 !important;
+
+    max-width: none !important;
+
+    padding: 0 !important;
+}
+
+body.login #container {
+    min-height: 100vh;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.blossoms-login-page {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
+
+.blossoms-login-card {
+    width: 100%;
+
+    max-width: 430px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8e9f0;
+
+    border-radius: 22px;
+
+    padding: 38px 40px 30px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 60px
+        rgba(69, 57, 150, 0.12);
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.blossoms-login-logo {
+    width: 72px;
+
+    height: 72px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eeeaff,
+            #e3ddff
+        );
+
+    border-radius: 20px;
+
+    font-size: 38px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(108, 92, 231, 0.12);
+}
+
+
+/* =========================================================
+   SCHOOL NAME
+   ========================================================= */
+
+.blossoms-login-school {
+    margin: 0 !important;
+
+    color: #2d3436 !important;
+
+    font-size: 23px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.3;
+}
+
+
+.blossoms-login-subtitle {
+    margin: 5px 0 0;
+
+    color: #8a919c;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.blossoms-login-heading {
+    margin-top: 30px;
+
+    margin-bottom: 24px;
+}
+
+
+.blossoms-login-heading h2 {
+    margin: 0;
+
+    color: #2d3436;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.blossoms-login-heading p {
+    margin: 6px 0 0;
+
+    color: #8a919c;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.blossoms-login-error {
+    margin-bottom: 18px;
+
+    padding: 11px 14px;
+
+    background: #fff1f1;
+
+    border: 1px solid #ffd6d6;
+
+    border-radius: 9px;
+
+    color: #c0392b;
+
+    font-size: 12px;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.blossoms-login-form {
+    text-align: left;
+}
+
+
+/* =========================================================
+   FIELD
+   ========================================================= */
+
+.blossoms-field {
+    margin-bottom: 19px;
+}
+
+
+.blossoms-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #454b55 !important;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.blossoms-field input {
+    width: 100% !important;
+
+    height: 46px !important;
+
+    box-sizing: border-box !important;
+
+    margin: 0 !important;
+
+    padding: 0 14px !important;
+
+    background: #ffffff !important;
+
+    color: #2d3436 !important;
+
+    border: 1px solid #dfe2e8 !important;
+
+    border-radius: 9px !important;
+
+    font-size: 13px !important;
+
+    outline: none !important;
+
+    box-shadow: none !important;
+}
+
+
+.blossoms-field input::placeholder {
+    color: #a4aab3;
+}
+
+
+.blossoms-field input:focus {
+    border-color:
+        #6c5ce7 !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(108, 92, 231, 0.10) !important;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+.blossoms-login-button {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 5px;
+
+    border: none !important;
+
+    border-radius: 10px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6c5ce7,
+            #4834d4
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+
+    font-weight: 700 !important;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.blossoms-login-button span {
+    font-size: 18px;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.blossoms-login-button:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(108, 92, 231, 0.25);
+}
+
+
+.blossoms-login-button:hover span {
+    transform:
+        translateX(3px);
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+   ========================================================= */
+
+.blossoms-forgot-password {
+    margin-top: 20px;
+}
+
+
+.blossoms-forgot-password a {
+    color:
+        #6c5ce7 !important;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none !important;
+}
+
+
+.blossoms-forgot-password a:hover {
+    color:
+        #4834d4 !important;
+
+    text-decoration: underline !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.blossoms-login-footer {
+    margin-top: 28px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #eeeeee;
+
+    color: #a0a5ad;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+    .blossoms-login-page {
+        padding: 18px;
+    }
+
+    .blossoms-login-card {
+        padding:
+            30px 24px 25px;
+
+        border-radius: 18px;
+    }
+
+    .blossoms-login-school {
+        font-size: 20px !important;
+    }
+
+    .blossoms-login-logo {
+        width: 62px;
+
+        height: 62px;
+
+        font-size: 32px;
+    }
+}

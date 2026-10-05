@@ -1,0 +1,534 @@
+{% extends "accounts/base_auth.html" %}
+
+{% block title %}Login | Blossoms Planet School ERP{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =========================================
+       ROLE SELECTION
+       ========================================= */
+
+    .login-role-title {
+        font-weight: 700;
+        color: #343a40;
+    }
+
+    .login-role-selection {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-top: 12px;
+    }
+
+    .login-role-option {
+        position: relative;
+    }
+
+    .login-role-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .login-role-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border: 2px solid #e5e7eb;
+        border-radius: 14px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .login-role-card:hover {
+        border-color: #7c3aed;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(124, 58, 237, 0.10);
+    }
+
+    .login-role-icon {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f3f0ff;
+        color: #6d28d9;
+        font-size: 21px;
+    }
+
+    .login-role-name {
+        font-weight: 700;
+        color: #343a40;
+    }
+
+    .login-role-description {
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+    .login-role-option input:checked + .login-role-card {
+        border-color: #6d28d9;
+        background: linear-gradient(
+            135deg,
+            #f5f3ff,
+            #ede9fe
+        );
+        box-shadow: 0 6px 18px rgba(109, 40, 217, 0.15);
+    }
+
+    .login-role-option input:checked
+    + .login-role-card
+    .login-role-icon {
+        background: #6d28d9;
+        color: #ffffff;
+    }
+
+    .login-role-check {
+        margin-left: auto;
+        width: 23px;
+        height: 23px;
+        min-width: 23px;
+        border-radius: 50%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #6d28d9;
+        color: white;
+        font-size: 13px;
+    }
+
+    .login-role-option input:checked
+    ~ .login-role-check {
+        display: flex;
+    }
+
+    @media (max-width: 576px) {
+
+        .login-role-selection {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+
+<!-- ========================================================= -->
+<!-- PAGE TITLE -->
+<!-- ========================================================= -->
+
+<div class="text-center mb-4">
+
+    <h2 class="fw-bold">
+
+        Welcome Back 👋
+
+    </h2>
+
+    <p class="text-muted">
+
+        Login to continue to your dashboard
+
+    </p>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- LOGIN FORM -->
+<!-- ========================================================= -->
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+    <!-- ===================================================== -->
+    <!-- ROLE SELECTION -->
+    <!-- ===================================================== -->
+
+    <div class="mb-4">
+
+        <div class="text-center mb-2">
+
+            <div class="login-role-title">
+
+                Login As
+
+            </div>
+
+            <div class="text-muted small">
+
+                Select your school role
+
+            </div>
+
+        </div>
+
+
+        <div class="login-role-selection">
+
+
+            <!-- ============================================= -->
+            <!-- TEACHER -->
+            <!-- ============================================= -->
+
+            <div class="login-role-option">
+
+                <input
+                    type="radio"
+                    name="role"
+                    value="Teacher"
+                    id="loginTeacher"
+                    {% if form.role.value == "Teacher" %}
+                        checked
+                    {% endif %}
+                >
+
+                <label
+                    for="loginTeacher"
+                    class="login-role-card">
+
+                    <div class="login-role-icon">
+
+                        <i class="bi bi-person-workspace"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="login-role-name">
+
+                            Teacher
+
+                        </div>
+
+                        <div class="login-role-description">
+
+                            Teaching Staff
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <div class="login-role-check">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================= -->
+            <!-- PRINCIPAL -->
+            <!-- ============================================= -->
+
+            <div class="login-role-option">
+
+                <input
+                    type="radio"
+                    name="role"
+                    value="Principal"
+                    id="loginPrincipal"
+                    {% if form.role.value == "Principal" %}
+                        checked
+                    {% endif %}
+                >
+
+                <label
+                    for="loginPrincipal"
+                    class="login-role-card">
+
+                    <div class="login-role-icon">
+
+                        <i class="bi bi-person-badge-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="login-role-name">
+
+                            Principal
+
+                        </div>
+
+                        <div class="login-role-description">
+
+                            School Administration
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <div class="login-role-check">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        {% if form.role.errors %}
+
+            <div class="alert alert-danger mt-2">
+
+                {{ form.role.errors }}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- USERNAME -->
+    <!-- ===================================================== -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+
+            Username
+
+        </label>
+
+        <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-person-fill"></i>
+
+            </span>
+
+            {{ form.username }}
+
+        </div>
+
+        {% if form.username.errors %}
+
+            <div class="text-danger small mt-1">
+
+                {{ form.username.errors }}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PASSWORD -->
+    <!-- ===================================================== -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+
+            Password
+
+        </label>
+
+        <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-lock-fill"></i>
+
+            </span>
+
+            {{ form.password }}
+
+            <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="togglePassword">
+
+                <i
+                    class="bi bi-eye"
+                    id="eyeIcon">
+                </i>
+
+            </button>
+
+        </div>
+
+        {% if form.password.errors %}
+
+            <div class="text-danger small mt-1">
+
+                {{ form.password.errors }}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- NON FIELD ERRORS -->
+    <!-- ===================================================== -->
+
+    {% if form.non_field_errors %}
+
+        <div class="alert alert-danger">
+
+            {{ form.non_field_errors }}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ===================================================== -->
+    <!-- REMEMBER + FORGOT -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="form-check">
+
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="rememberMe"
+                name="remember_me">
+
+            <label
+                class="form-check-label"
+                for="rememberMe">
+
+                Remember Me
+
+            </label>
+
+        </div>
+
+
+        <a
+            href="{% url 'forgot_password' %}"
+            class="text-decoration-none">
+
+            Forgot Password?
+
+        </a>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- LOGIN BUTTON -->
+    <!-- ===================================================== -->
+
+    <div class="d-grid">
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-auth">
+
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+
+            Login
+
+        </button>
+
+    </div>
+
+</form>
+
+
+<hr>
+
+
+<!-- ========================================================= -->
+<!-- SIGNUP LINK -->
+<!-- ========================================================= -->
+
+<div class="text-center">
+
+    <span class="text-muted">
+
+        Don't have an account?
+
+    </span>
+
+    <a
+        href="{% url 'signup' %}"
+        class="fw-bold text-decoration-none">
+
+        Create Account
+
+    </a>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
+const password =
+    document.getElementById("id_password");
+
+const eye =
+    document.getElementById("eyeIcon");
+
+
+if (togglePassword && password && eye) {
+
+    togglePassword.addEventListener(
+        "click",
+        function () {
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                eye.classList.remove("bi-eye");
+
+                eye.classList.add("bi-eye-slash");
+
+            }
+
+            else {
+
+                password.type = "password";
+
+                eye.classList.remove("bi-eye-slash");
+
+                eye.classList.add("bi-eye");
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+{% endblock %}

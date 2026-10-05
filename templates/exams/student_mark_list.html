@@ -1,0 +1,121 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Student Marks{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+<div class="container-fluid">
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+<h4 class="mb-0">
+Student Marks
+</h4>
+
+<form method="GET" class="d-flex">
+
+<input
+type="text"
+name="search"
+value="{{ search }}"
+class="form-control me-2"
+placeholder="Search..."
+>
+
+<button class="btn btn-light">
+Search
+</button>
+
+</form>
+
+</div>
+
+<div class="card-body p-0">
+
+<table class="table table-striped table-hover mb-0">
+
+<thead>
+
+<tr>
+
+<th>Admission No</th>
+
+<th>Student</th>
+
+<th>Exam</th>
+
+<th>Subject</th>
+
+<th>Marks</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for mark in marks %}
+
+<tr>
+
+<td>{{ mark.student.admission_number }}</td>
+
+<td>{{ mark.student.first_name }} {{ mark.student.last_name }}</td>
+
+<td>{{ mark.exam_subject.exam.name }}</td>
+
+<td>{{ mark.exam_subject.subject.name }}</td>
+
+<td>{{ mark.obtained_marks }}</td>
+
+<td>
+
+<a href="{% url 'student_mark_update' mark.id %}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a href="{% url 'student_mark_delete' mark.id %}"
+class="btn btn-danger btn-sm">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6" class="text-center">
+
+No marks found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

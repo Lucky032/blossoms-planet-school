@@ -1,0 +1,93 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+            <h4 class="mb-0">{{ title }}</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-4">
+
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th width="200">Student</th>
+                        <td>{{ mark.student }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Admission No</th>
+                        <td>{{ mark.student.admission_number }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Exam</th>
+                        <td>{{ mark.exam_subject.exam }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Subject</th>
+                        <td>{{ mark.exam_subject.subject }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Maximum Marks</th>
+                        <td>{{ mark.exam_subject.maximum_marks }}</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Obtained Marks
+                    </label>
+
+                    {{ form.obtained_marks }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Remarks
+                    </label>
+
+                    {{ form.remarks }}
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Update Marks
+                </button>
+
+                <a href="{% url 'student_mark_list' %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

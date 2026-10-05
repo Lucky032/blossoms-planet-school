@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Blossoms Planet School | Admin
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}" class="blossoms-brand">
+        <span class="brand-icon">🌸</span>
+        <span>
+            <strong>Blossoms Planet School</strong>
+            <small>School Management System</small>
+        </span>
+    </a>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin/custom_admin.css' %}">
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+{% include "components/page_header.html" with title="Events" button_text="Add Event" button_url="event_create" %}
+
+{% include "components/messages.html" %}
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<form method="get" class="row mb-3">
+
+<div class="col-md-4">
+<input
+type="text"
+name="search"
+class="form-control"
+placeholder="Search Event..."
+value="{{ search }}"
+>
+</div>
+
+<div class="col-md-2">
+<button class="btn btn-primary">
+Search
+</button>
+</div>
+
+</form>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>Title</th>
+<th>Date</th>
+<th>Time</th>
+<th>Venue</th>
+<th>Status</th>
+<th width="150">Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for event in events %}
+
+<tr>
+
+<td>{{ event.title }}</td>
+
+<td>{{ event.event_date }}</td>
+
+<td>{{ event.event_time }}</td>
+
+<td>{{ event.venue }}</td>
+
+<td>
+
+{% if event.is_active %}
+
+<span class="badge bg-success">
+Active
+</span>
+
+{% else %}
+
+<span class="badge bg-secondary">
+Inactive
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a
+href="{% url 'event_update' event.id %}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a
+href="{% url 'event_delete' event.id %}"
+class="btn btn-danger btn-sm">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6" class="text-center">
+
+No events found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% include "components/pagination.html" with page_obj=events %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

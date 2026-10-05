@@ -1,0 +1,687 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome to Blossoms Planet School ERP
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Row 1 -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h6>Total Students</h6>
+
+                            <h2>{{ student_count }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-people-fill fs-1"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h6>Teachers</h6>
+
+                            <h2>{{ teacher_count }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-person-badge-fill fs-1"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm bg-warning h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h6>Classes</h6>
+
+                            <h2>{{ class_count }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-building fs-1"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm bg-danger text-white h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h6>Subjects</h6>
+
+                            <h2>{{ subject_count }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-journal-bookmark-fill fs-1"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Row 2 -->
+
+    <div class="row g-4 mt-1">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Active Students
+
+                    </h6>
+
+                    <h2>{{ active_students }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-danger">
+
+                        <i class="bi bi-x-circle-fill"></i>
+
+                        Inactive Students
+
+                    </h6>
+
+                    <h2>{{ inactive_students }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-primary">
+
+                        👦 Boys
+
+                    </h6>
+
+                    <h2>{{ male_students }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-danger">
+
+                        👧 Girls
+
+                    </h6>
+
+                    <h2>{{ female_students }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Student Statistics
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="studentChart" height="110"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Gender Distribution
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="genderChart" height="220"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Admission Enquiries -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Recent Admission Enquiries
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Student</th>
+                            <th>Parent</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for enquiry in recent_admissions %}
+
+                        <tr>
+
+                            <td>{{ enquiry.student_name }}</td>
+
+                            <td>{{ enquiry.parent_name }}</td>
+
+                            <td>{{ enquiry.phone }}</td>
+
+                            <td>
+
+                                <span class="badge bg-info">
+
+                                    {{ enquiry.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="4" class="text-center">
+
+                                No admission enquiries available.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+            📅 Upcoming Events
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if recent_events %}
+
+            <div class="list-group">
+
+                {% for event in recent_events %}
+
+                    <div class="list-group-item">
+
+                        <h6 class="mb-1">
+                            {{ event.title }}
+                        </h6>
+
+                        <small class="text-muted">
+
+                            {{ event.event_date }}
+                            |
+                            {{ event.venue }}
+
+                        </small>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="text-muted mb-0">
+
+                No upcoming events.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+            ⭐ Latest Reviews
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if recent_reviews %}
+
+            {% for review in recent_reviews %}
+
+                <div class="border-bottom mb-3 pb-3">
+
+                    <strong>
+
+                        {{ review.name }}
+
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+
+                        {{ review.designation }}
+
+                    </small>
+
+                    <p class="mt-2 mb-1">
+
+                        {{ review.review|truncatewords:20 }}
+
+                    </p>
+
+                    <div>
+
+                        {% for i in "12345" %}
+
+                            {% if forloop.counter <= review.rating %}
+
+                                ⭐
+
+                            {% else %}
+
+                                ☆
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="text-muted">
+
+                No reviews available.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            ⚡ Quick Actions
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{% url 'add_student' %}" class="btn btn-primary">
+
+                + Student
+
+            </a>
+
+            <a href="{% url 'admission' %}" class="btn btn-success">
+
+                + Admission
+
+            </a>
+
+            <a href="{% url 'staff_create' %}" class="btn btn-warning">
+
+                + Staff
+
+            </a>
+
+            <a href="{% url 'marks_entry' %}" class="btn btn-danger">
+
+                + Marks
+
+            </a>
+
+            <a href="{% url 'mark_attendance' %}" class="btn btn-info">
+
+                Attendance
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const studentCtx = document.getElementById("studentChart");
+
+    if (studentCtx) {
+
+        new Chart(studentCtx, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    "Total",
+
+                    "Active",
+
+                    "Inactive"
+
+                ],
+
+                datasets: [{
+
+                    label: "Students",
+
+                    data: [
+
+                        {{ chart_students.0 }},
+
+                        {{ chart_students.1 }},
+
+                        {{ chart_students.2 }}
+
+                    ],
+
+                    backgroundColor: [
+
+                        "#0d6efd",
+
+                        "#198754",
+
+                        "#dc3545"
+
+                    ],
+
+                    borderRadius: 6
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+    const genderCtx = document.getElementById("genderChart");
+
+    if (genderCtx) {
+
+        new Chart(genderCtx, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+
+                    "Boys",
+
+                    "Girls"
+
+                ],
+
+                datasets: [{
+
+                    data: [
+
+                        {{ chart_gender.0 }},
+
+                        {{ chart_gender.1 }}
+
+                    ],
+
+                    backgroundColor: [
+
+                        "#0d6efd",
+
+                        "#ff69b4"
+
+                    ]
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,356 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Blossoms Planet School | Admin
+{% endblock %}
+
+{% block branding %}
+
+<div id="site-name">
+
+    <a href="{% url 'admin:index' %}" class="blossoms-brand">
+
+        <span class="brand-icon">
+            🌸
+        </span>
+
+        <span>
+            <strong>Blossoms Planet School</strong>
+
+            <small>
+                School Management System
+            </small>
+        </span>
+
+    </a>
+
+</div>
+
+{% endblock %}
+
+
+{% block nav-sidebar %}
+
+<div class="blossoms-sidebar">
+
+    <!-- BRAND -->
+
+    <div class="blossoms-sidebar-brand">
+
+        <div class="blossoms-logo">
+            🌸
+        </div>
+
+        <div>
+            <div class="blossoms-school-name">
+                Blossoms Planet
+            </div>
+
+            <div class="blossoms-school-subtitle">
+                School ERP
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+
+    <a href="{% url 'admin:index' %}"
+       class="blossoms-nav-item">
+
+        <span class="blossoms-nav-icon">
+            🏠
+        </span>
+
+        <span>
+            Dashboard
+        </span>
+
+    </a>
+
+
+    <!-- ACADEMICS -->
+
+    <div class="blossoms-nav-section">
+
+        <div class="blossoms-nav-title">
+            ACADEMICS
+        </div>
+
+
+        <a href="{% url 'admin:academics_student_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🎓
+            </span>
+
+            <span>
+                Students
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:academics_schoolclass_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🏫
+            </span>
+
+            <span>
+                Classes
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:academics_section_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                📚
+            </span>
+
+            <span>
+                Sections
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:academics_subject_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                📖
+            </span>
+
+            <span>
+                Subjects
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:academics_teacherassignment_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                👨‍🏫
+            </span>
+
+            <span>
+                Teacher Assignments
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- SCHOOL -->
+
+    <div class="blossoms-nav-section">
+
+        <div class="blossoms-nav-title">
+            SCHOOL
+        </div>
+
+
+        <a href="{% url 'admin:staff_staff_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                👨‍💼
+            </span>
+
+            <span>
+                Staff
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:attendance_attendance_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                📅
+            </span>
+
+            <span>
+                Attendance
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:fees_feestructure_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                💰
+            </span>
+
+            <span>
+                Fee Structure
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:fees_feecollection_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🧾
+            </span>
+
+            <span>
+                Fee Collection
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:exams_exam_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                📝
+            </span>
+
+            <span>
+                Exams
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:reviews_review_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                ⭐
+            </span>
+
+            <span>
+                Reviews
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- WEBSITE -->
+
+    <div class="blossoms-nav-section">
+
+        <div class="blossoms-nav-title">
+            WEBSITE
+        </div>
+
+
+        <a href="{% url 'admin:core_schoolprofile_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🏫
+            </span>
+
+            <span>
+                School Profile
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:core_facility_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🏢
+            </span>
+
+            <span>
+                Facilities
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'admin:core_statistic_changelist' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                📊
+            </span>
+
+            <span>
+                Statistics
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- ACCOUNT -->
+
+    <div class="blossoms-sidebar-bottom">
+
+        <a href="{% url 'admin:password_change' %}"
+           class="blossoms-nav-item">
+
+            <span class="blossoms-nav-icon">
+                🔐
+            </span>
+
+            <span>
+                Change Password
+            </span>
+
+        </a>
+
+
+        <form method="post"
+              action="{% url 'admin:logout' %}">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="blossoms-logout">
+
+                <span class="blossoms-nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{{ block.super }}
+
+<link rel="stylesheet"
+      href="{% static 'css/admin/custom_admin.css' %}">
+
+{% endblock %}

@@ -1,0 +1,383 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        <h3 class="fw-bold">
+                            Online Fee Payment
+                        </h3>
+
+                        <p class="text-muted mb-0">
+                            Secure payment through Paytm
+                        </p>
+
+                    </div>
+
+
+                    <!-- Student Details -->
+
+                    <div class="mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            Student Details
+                        </h6>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <small class="text-muted">
+                                    Student
+                                </small>
+
+                                <div class="fw-semibold">
+                                    {{ student.first_name }}
+                                    {{ student.last_name }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <small class="text-muted">
+                                    Admission Number
+                                </small>
+
+                                <div class="fw-semibold">
+                                    {{ student.admission_number }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Fee Details -->
+
+                    <div class="mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            Fee Details
+                        </h6>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <small class="text-muted">
+                                    Fee Type
+                                </small>
+
+                                <div class="fw-semibold">
+                                    {{ fee_structure.fee_type }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <small class="text-muted">
+                                    Amount
+                                </small>
+
+                                <div class="fw-bold fs-4 text-success">
+                                    ₹{{ amount }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Payment Status -->
+
+                    <div
+                        id="payment-message"
+                        class="alert d-none"
+                        role="alert">
+                    </div>
+
+
+                    <!-- Pay Button -->
+
+                    <div class="d-grid">
+
+                        <button
+                            type="button"
+                            id="paytm-pay-button"
+                            class="btn btn-primary btn-lg">
+
+                            <span id="pay-button-text">
+                                Pay ₹{{ amount }}
+                            </span>
+
+                            <span
+                                id="pay-button-loader"
+                                class="spinner-border spinner-border-sm d-none"
+                                role="status">
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="text-center mt-3">
+
+                        <small class="text-muted">
+
+                            You can pay using available
+                            UPI and card payment options.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================================
+     Paytm Checkout JS
+=========================================================== -->
+
+<script src="https://securegw.paytm.in/merchantpgpui/checkoutjs/merchants/{{ mid }}.js"></script>
+
+
+<script>
+
+const paymentButton = document.getElementById(
+    "paytm-pay-button"
+);
+
+const buttonText = document.getElementById(
+    "pay-button-text"
+);
+
+const buttonLoader = document.getElementById(
+    "pay-button-loader"
+);
+
+const paymentMessage = document.getElementById(
+    "payment-message"
+);
+
+
+function showMessage(message, type = "danger") {
+
+    paymentMessage.className =
+        "alert alert-" + type;
+
+    paymentMessage.textContent = message;
+
+}
+
+
+function setLoading(loading) {
+
+    if (loading) {
+
+        paymentButton.disabled = true;
+
+        buttonText.classList.add(
+            "d-none"
+        );
+
+        buttonLoader.classList.remove(
+            "d-none"
+        );
+
+    } else {
+
+        paymentButton.disabled = false;
+
+        buttonText.classList.remove(
+            "d-none"
+        );
+
+        buttonLoader.classList.add(
+            "d-none"
+        );
+
+    }
+
+}
+
+
+paymentButton.addEventListener(
+    "click",
+    function () {
+
+        startPayment();
+
+    }
+);
+
+
+async function startPayment() {
+
+    setLoading(true);
+
+    paymentMessage.className =
+        "alert d-none";
+
+
+    try {
+
+        const formData = new FormData();
+
+        formData.append(
+            "student_id",
+            "{{ student.id }}"
+        );
+
+        formData.append(
+            "fee_structure_id",
+            "{{ fee_structure.id }}"
+        );
+
+        formData.append(
+            "amount",
+            "{{ amount }}"
+        );
+
+
+        const response = await fetch(
+            "{% url 'paytm_payment_create' %}",
+            {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken":
+                        "{{ csrf_token }}"
+                },
+
+                body: formData
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to start payment."
+            );
+
+        }
+
+
+        const config = {
+
+            root: "",
+
+            flow: "DEFAULT",
+
+            data: {
+
+                orderId: data.orderId,
+
+                token: data.txnToken,
+
+                tokenType: data.tokenType,
+
+                amount: data.amount
+
+            },
+
+            merchant: {
+
+                mid: data.mid,
+
+                name: "Blossoms Planet School"
+
+            },
+
+            handler: {
+
+                notifyMerchant: function (
+                    eventName,
+                    data
+                ) {
+
+                    console.log(
+                        "Paytm Event:",
+                        eventName,
+                        data
+                    );
+
+                }
+
+            }
+
+        };
+
+
+        if (
+            typeof Paytm === "undefined" ||
+            !Paytm.CheckoutJS
+        ) {
+
+            throw new Error(
+                "Paytm CheckoutJS could not be loaded."
+            );
+
+        }
+
+
+        await Paytm.CheckoutJS.init(
+            config
+        );
+
+
+        Paytm.CheckoutJS.invoke();
+
+    }
+    catch (error) {
+
+        console.error(
+            "Paytm Payment Error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Unable to start payment."
+        );
+
+        setLoading(false);
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

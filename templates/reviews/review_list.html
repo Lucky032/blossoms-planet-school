@@ -1,0 +1,179 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Reviews{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+{% include "components/page_header.html" with title="Reviews" button_text="Add Review" button_url="review_create" %}
+
+{% include "components/messages.html" %}
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<form method="get" class="row mb-3">
+
+<div class="col-md-4">
+
+<input
+type="text"
+name="search"
+class="form-control"
+placeholder="Search Review..."
+value="{{ search }}">
+
+</div>
+
+<div class="col-md-2">
+
+<button class="btn btn-primary">
+
+Search
+
+</button>
+
+</div>
+
+</form>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>Photo</th>
+<th>Name</th>
+<th>Designation</th>
+<th>Rating</th>
+<th>Status</th>
+<th width="150">Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for review in reviews %}
+
+<tr>
+
+<td>
+
+{% if review.photo %}
+
+<img
+src="{{ review.photo.url }}"
+width="50"
+height="50"
+class="rounded-circle">
+
+{% else %}
+
+-
+
+{% endif %}
+
+</td>
+
+<td>{{ review.name }}</td>
+
+<td>{{ review.designation }}</td>
+
+<td>
+
+{% for i in "12345" %}
+
+{% if forloop.counter <= review.rating %}
+
+⭐
+
+{% else %}
+
+☆
+
+{% endif %}
+
+{% endfor %}
+
+</td>
+
+<td>
+
+{% if review.is_active %}
+
+<span class="badge bg-success">
+
+Active
+
+</span>
+
+{% else %}
+
+<span class="badge bg-secondary">
+
+Inactive
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a
+href="{% url 'review_update' review.id %}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a
+href="{% url 'review_delete' review.id %}"
+class="btn btn-danger btn-sm">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6" class="text-center">
+
+No reviews found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% include "components/pagination.html" with page_obj=reviews %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

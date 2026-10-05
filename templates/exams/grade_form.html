@@ -1,0 +1,91 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+{% include "components/messages.html" %}
+
+<div class="container-fluid">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-6">
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white">
+
+<h4>
+
+<i class="bi bi-award"></i>
+
+{{ title }}
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="mb-3">
+
+<label>Grade</label>
+
+{{ form.grade_name }}
+
+</div>
+
+<div class="mb-3">
+
+<label>Minimum Percentage</label>
+
+{{ form.minimum_percentage }}
+
+</div>
+
+<div class="mb-3">
+
+<label>Maximum Percentage</label>
+
+{{ form.maximum_percentage }}
+
+</div>
+
+<hr>
+
+<div class="d-flex justify-content-end">
+
+<a href="{% url 'grade_list' %}" class="btn btn-secondary me-2">
+
+Back
+
+</a>
+
+<button class="btn btn-primary">
+
+Save Grade
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,257 @@
+<style>
+    /* =========================================
+       BLOSSOMS PLANET SCHOOL NAVBAR
+       ========================================= */
+
+    .blossoms-navbar {
+        background: #1677f2 !important;
+
+        min-height: 72px;
+
+        padding: 0 !important;
+    }
+
+
+    /* Full-width navbar */
+
+    .blossoms-navbar .container {
+        width: 100% !important;
+
+        max-width: none !important;
+
+        margin: 0 !important;
+
+        padding-left: 28px !important;
+
+        padding-right: 28px !important;
+
+        min-height: 72px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+    }
+
+
+    /* =========================================
+       SCHOOL TITLE - FAR LEFT
+       ========================================= */
+
+    .blossoms-navbar .navbar-brand {
+        color: #ffffff !important;
+
+        font-size: 25px !important;
+
+        font-weight: 800 !important;
+
+        padding: 0 !important;
+
+        margin: 0 !important;
+
+        line-height: 1 !important;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+       NAVIGATION - FAR RIGHT
+       ========================================= */
+
+    .blossoms-navbar .navbar-collapse {
+        flex-grow: 0 !important;
+
+        margin-left: auto !important;
+    }
+
+
+    .blossoms-navbar .navbar-nav {
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+
+        justify-content: flex-end !important;
+
+        gap: 10px !important;
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+    }
+
+
+    .blossoms-navbar .nav-item {
+        margin: 0 !important;
+
+        padding: 0 !important;
+    }
+
+
+    .blossoms-navbar .nav-link {
+        color: #ffffff !important;
+
+        font-size: 16px !important;
+
+        font-weight: 700 !important;
+
+        padding: 10px 15px !important;
+
+        margin: 0 !important;
+
+        line-height: 1.2 !important;
+
+        border-radius: 8px;
+
+        white-space: nowrap;
+
+        opacity: 1 !important;
+    }
+
+
+    /* Hover */
+
+    .blossoms-navbar .nav-link:hover {
+        color: #ffffff !important;
+
+        background:
+            rgba(255, 255, 255, 0.14);
+    }
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 991px) {
+
+        .blossoms-navbar .container {
+            padding-left: 18px !important;
+
+            padding-right: 18px !important;
+        }
+
+        .blossoms-navbar .navbar-collapse {
+            width: 100%;
+
+            margin-top: 10px;
+        }
+
+        .blossoms-navbar .navbar-nav {
+            flex-direction: column !important;
+
+            align-items: stretch !important;
+
+            gap: 2px !important;
+        }
+
+        .blossoms-navbar .nav-link {
+            width: 100%;
+
+            text-align: left;
+        }
+
+    }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark blossoms-navbar">
+
+    <div class="container">
+
+        <!-- LEFT -->
+
+        <a
+            class="navbar-brand"
+            href="/">
+
+            Blossoms Planet School
+
+        </a>
+
+
+        <!-- MOBILE BUTTON -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar"
+            aria-controls="navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- RIGHT -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbar">
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/">
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/about/">
+
+                        About
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/admission/">
+
+                        Admissions
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/contact/">
+
+                        Contact
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

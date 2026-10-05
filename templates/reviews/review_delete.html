@@ -1,0 +1,57 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Delete Review{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>
+
+Delete Review
+
+</h4>
+
+<p>
+
+Are you sure you want to delete
+
+<strong>
+
+{{ review.name }}
+
+</strong>?
+
+</p>
+
+<form method="post">
+
+{% csrf_token %}
+
+<button class="btn btn-danger">
+
+Delete
+
+</button>
+
+<a
+href="{% url 'review_list' %}"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

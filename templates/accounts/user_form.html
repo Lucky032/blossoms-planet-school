@@ -1,0 +1,175 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}
+    {% if is_edit %}
+        Edit User
+    {% else %}
+        Add User
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+
+                {% if is_edit %}
+                    <i class="bi bi-pencil-square"></i>
+                    Edit User
+                {% else %}
+                    <i class="bi bi-person-plus-fill"></i>
+                    Add New User
+                {% endif %}
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        {{ user_form.username }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        {{ user_form.email }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            First Name
+                        </label>
+
+                        {{ user_form.first_name }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Last Name
+                        </label>
+
+                        {{ user_form.last_name }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        {{ user_form.password }}
+
+                        {% if is_edit %}
+
+                        <small class="text-muted">
+                            Leave blank if you don't want to change the password.
+                        </small>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Role
+                        </label>
+
+                        {{ profile_form.role }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Phone Number
+                        </label>
+
+                        {{ profile_form.phone }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Profile Image
+                        </label>
+
+                        {{ profile_form.profile_image }}
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    {% if is_edit %}
+                        Update User
+                    {% else %}
+                        Save User
+                    {% endif %}
+
+                </button>
+
+                <a
+                    href="{% url 'user_list' %}"
+                    class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

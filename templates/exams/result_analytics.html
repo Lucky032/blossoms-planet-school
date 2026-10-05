@@ -1,0 +1,191 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Result Analytics{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+📊 Result Analytics Dashboard
+</h2>
+
+<div class="row">
+
+<div class="col-md-3 mb-4">
+
+<div class="card bg-primary text-white shadow">
+
+<div class="card-body">
+
+<h6>Total Students</h6>
+
+<h2>{{ total_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<div class="card bg-success text-white shadow">
+
+<div class="card-body">
+
+<h6>Passed</h6>
+
+<h2>{{ pass_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<div class="card bg-danger text-white shadow">
+
+<div class="card-body">
+
+<h6>Failed</h6>
+
+<h2>{{ fail_students }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-4">
+
+<div class="card bg-warning shadow">
+
+<div class="card-body">
+
+<h6>Average %</h6>
+
+<h2>{{ average_percentage }}%</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+🏆 Top Performer
+
+</div>
+
+<div class="card-body">
+
+{% if topper %}
+
+<h4>{{ topper.student }}</h4>
+
+<p>
+
+<b>Percentage:</b>
+
+{{ topper.percentage }}%
+
+</p>
+
+<p>
+
+<b>Total:</b>
+
+{{ topper.total_marks }}
+
+</p>
+
+<p>
+
+<b>Grade:</b>
+
+{{ topper.grade }}
+
+</p>
+
+{% else %}
+
+No Data
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-header bg-danger text-white">
+
+📉 Lowest Performer
+
+</div>
+
+<div class="card-body">
+
+{% if lowest %}
+
+<h4>{{ lowest.student }}</h4>
+
+<p>
+
+<b>Percentage:</b>
+
+{{ lowest.percentage }}%
+
+</p>
+
+<p>
+
+<b>Total:</b>
+
+{{ lowest.total_marks }}
+
+</p>
+
+<p>
+
+<b>Grade:</b>
+
+{{ lowest.grade }}
+
+</p>
+
+{% else %}
+
+No Data
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
