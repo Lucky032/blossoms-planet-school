@@ -9,9 +9,6 @@
         padding: 0 !important;
     }
 
-
-    /* Full-width navbar */
-
     .blossoms-navbar .container {
         width: 100% !important;
         max-width: none !important;
@@ -27,9 +24,8 @@
         justify-content: space-between;
     }
 
-
     /* =========================================
-       SCHOOL TITLE - FAR LEFT
+       SCHOOL TITLE
        ========================================= */
 
     .blossoms-navbar .navbar-brand {
@@ -45,16 +41,14 @@
         white-space: nowrap;
     }
 
-
     /* =========================================
-       NAVIGATION - FAR RIGHT
+       NAVIGATION
        ========================================= */
 
     .blossoms-navbar .navbar-collapse {
         flex-grow: 0 !important;
         margin-left: auto !important;
     }
-
 
     .blossoms-navbar .navbar-nav {
         display: flex !important;
@@ -69,12 +63,10 @@
         padding: 0 !important;
     }
 
-
     .blossoms-navbar .nav-item {
         margin: 0 !important;
         padding: 0 !important;
     }
-
 
     .blossoms-navbar .nav-link {
         color: #ffffff !important;
@@ -99,9 +91,6 @@
             transform 0.25s ease;
     }
 
-
-    /* Hover */
-
     .blossoms-navbar .nav-link:hover {
         color: #ffffff !important;
 
@@ -109,7 +98,6 @@
 
         transform: translateY(-1px);
     }
-
 
     /* =========================================
        LOGIN BUTTON
@@ -137,7 +125,6 @@
             box-shadow 0.25s ease;
     }
 
-
     .blossoms-navbar .login-link:hover {
         background: #f3f7ff !important;
 
@@ -149,6 +136,65 @@
             0 7px 18px rgba(0, 0, 0, 0.16);
     }
 
+    /* =========================================
+       USER INFO
+       ========================================= */
+
+    .blossoms-navbar .user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        margin-left: 10px;
+        padding: 6px 12px;
+
+        border-left: 1px solid rgba(255, 255, 255, 0.35);
+
+        line-height: 1.15;
+    }
+
+    .blossoms-navbar .user-role {
+        color: rgba(255, 255, 255, 0.80);
+
+        font-size: 11px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .blossoms-navbar .user-name {
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 800;
+
+        white-space: nowrap;
+    }
+
+    /* =========================================
+       LOGOUT BUTTON
+       ========================================= */
+
+    .blossoms-navbar .logout-link {
+        margin-left: 4px !important;
+
+        padding: 9px 15px !important;
+
+        color: #ffffff !important;
+
+        border: 1px solid rgba(255, 255, 255, 0.45);
+
+        border-radius: 8px !important;
+
+        font-weight: 700 !important;
+    }
+
+    .blossoms-navbar .logout-link:hover {
+        background: rgba(255, 255, 255, 0.15);
+
+        color: #ffffff !important;
+    }
 
     /* =========================================
        MOBILE
@@ -161,14 +207,12 @@
             padding-right: 18px !important;
         }
 
-
         .blossoms-navbar .navbar-collapse {
             width: 100%;
             margin-top: 10px;
 
             padding-bottom: 10px;
         }
-
 
         .blossoms-navbar .navbar-nav {
             flex-direction: column !important;
@@ -178,7 +222,6 @@
             gap: 2px !important;
         }
 
-
         .blossoms-navbar .nav-link {
             width: 100%;
 
@@ -187,7 +230,6 @@
             padding: 12px 15px !important;
         }
 
-
         .blossoms-navbar .login-link {
             margin-left: 0 !important;
             margin-top: 5px !important;
@@ -195,8 +237,26 @@
             text-align: center !important;
         }
 
-    }
+        .blossoms-navbar .user-info {
+            margin-left: 0;
 
+            margin-top: 8px;
+
+            padding-left: 15px;
+
+            border-left: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+
+            padding-top: 10px;
+        }
+
+        .blossoms-navbar .logout-link {
+            margin-left: 0 !important;
+            margin-top: 5px !important;
+
+            text-align: center !important;
+        }
+    }
 
     /* =========================================
        SMALL MOBILE
@@ -215,7 +275,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark blossoms-navbar">
 
     <div class="container">
-
 
         <!-- =====================================
              LEFT - SCHOOL NAME
@@ -349,20 +408,54 @@
                 </li>
 
 
-                <!-- LOGIN -->
+                {% if user.is_authenticated %}
 
-                <li class="nav-item">
+                    <!-- LOGGED-IN USER -->
 
-                    <a
-                        class="nav-link login-link"
-                        href="/accounts/login/">
-                        
+                    <li class="nav-item user-info">
 
-                        Login
+                        <span class="user-role">
+                            {{ user.userprofile.role }}
+                        </span>
 
-                    </a>
+                        <span class="user-name">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </span>
 
-                </li>
+                    </li>
+
+
+                    <!-- LOGOUT -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link logout-link"
+                            href="/accounts/logout/">
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+                {% else %}
+
+                    <!-- LOGIN -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link login-link"
+                            href="/accounts/login/">
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+                {% endif %}
 
 
             </ul>
@@ -372,4 +465,3 @@
     </div>
 
 </nav>
-```

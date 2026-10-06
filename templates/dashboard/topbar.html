@@ -33,31 +33,59 @@
                 class="btn btn-outline-primary dropdown-toggle"
                 data-bs-toggle="dropdown">
 
-                Admin
+                {% if user.is_authenticated %}
+                    {{ user.userprofile.role }}
+                    -
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    Login
+                {% endif %}
 
             </button>
 
             <ul class="dropdown-menu dropdown-menu-end">
 
-                <li>
+                {% if user.is_authenticated %}
 
-                    <a class="dropdown-item" href="#">
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'profile' %}">
 
-                        Profile
+                            <i class="bi bi-person-circle me-2"></i>
+                            Profile
 
-                    </a>
+                        </a>
+                    </li>
 
-                </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
 
-                <li>
+                    <li>
+                        <a
+                            class="dropdown-item text-danger"
+                            href="{% url 'logout' %}">
 
-                    <a class="dropdown-item" href="#">
+                            <i class="bi bi-box-arrow-right me-2"></i>
+                            Logout
 
-                        Logout
+                        </a>
+                    </li>
 
-                    </a>
+                {% else %}
 
-                </li>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'login' %}">
+
+                            Login
+
+                        </a>
+                    </li>
+
+                {% endif %}
 
             </ul>
 

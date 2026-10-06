@@ -19,6 +19,10 @@ from accounts.decorators import allowed_roles
 @allowed_roles("Admin", "Principal", "Teacher")
 def attendance_list(request):
 
+    # ==========================================
+    # BASE ATTENDANCE QUERY
+    # ==========================================
+
     attendance = (
         Attendance.objects.select_related(
             "student",
@@ -28,10 +32,13 @@ def attendance_list(request):
         )
     )
 
+    user_role = request.user.userprofile.role
+
     # ==========================================
     # TEACHER ACCESS CONTROL
     # ==========================================
-    if request.user.userprofile.role == "Teacher":
+
+    if user_role == "Teacher":
 
         attendance = attendance.filter(
             student__school_class__teacher_assignments__teacher__user=request.user,
@@ -39,56 +46,181 @@ def attendance_list(request):
             student__academic_year__teacher_assignments__teacher__user=request.user,
         ).distinct()
 
-    # Filters
+    # ==========================================
+    # FILTERS
+    # ==========================================
+
     search = request.GET.get("search", "")
-    date = request.GET.get("date", "")
+    selected_date = request.GET.get("date", "")
     school_class = request.GET.get("class", "")
     section = request.GET.get("section", "")
-    status = request.GET.get("status", "")
+
+    # ==========================================
+    # SEARCH
+    # ==========================================
 
     if search:
+
         attendance = attendance.filter(
-            Q(student__admission_number__icontains=search) |
-            Q(student__first_name__icontains=search) |
-            Q(student__last_name__icontains=search)
+            Q(student__admission_number__icontains=search)
+            | Q(student__first_name__icontains=search)
+            | Q(student__last_name__icontains=search)
         )
 
-    if date:
-        attendance = attendance.filter(date=date)
+    # ==========================================
+    # DATE FILTER
+    # ==========================================
+
+    if selected_date:
+
+        attendance = attendance.filter(
+            date=selected_date
+        )
+
+    # ==========================================
+    # CLASS FILTER
+    # ==========================================
 
     if school_class:
+
         attendance = attendance.filter(
             student__school_class_id=school_class
         )
 
+    # ==========================================
+    # SECTION FILTER
+    # ==========================================
+
     if section:
+
         attendance = attendance.filter(
             student__section_id=section
         )
 
-    if status:
-        attendance = attendance.filter(status=status)
+    # ==========================================
+    # ORDER
+    # ==========================================
 
     attendance = attendance.order_by(
         "-date",
-        "student__admission_number"
+        "student__admission_number",
     )
 
-    # Summary Cards
+    # ==========================================
+    # SUMMARY
+    # ==========================================
+
     total = attendance.count()
-    present = attendance.filter(status="Present").count()
-    absent = attendance.filter(status="Absent").count()
-    leave = attendance.filter(status="Leave").count()
 
-    # Pagination
-    paginator = Paginator(attendance, 10)
-    page_number = request.GET.get("page")
-    attendance = paginator.get_page(page_number)
+    present = attendance.filter(
+        status="Present"
+    ).count()
+
+    absent = attendance.filter(
+        status="Absent"
+    ).count()
+
+    # Attendance percentage
+    if total > 0:
+
+        attendance_percentage = round(
+            (present / total) * 100,
+            2
+        )
+
+    else:
+
+        attendance_percentage = 0
 
     # ==========================================
-    # TEACHER FILTER OPTIONS
+    # CLASS-WISE SUMMARY
     # ==========================================
-    if request.user.userprofile.role == "Teacher":
+
+    class_summary = []
+
+    if school_class:
+
+        class_records = attendance
+
+        class_total = class_records.count()
+
+        class_present = class_records.filter(
+            status="Present"
+        ).count()
+
+        class_absent = class_records.filter(
+            status="Absent"
+        ).count()
+
+        if class_total > 0:
+
+            class_percentage = round(
+                (class_present / class_total) * 100,
+                2
+            )
+
+        else:
+
+            class_percentage = 0
+
+        class_summary = {
+            "total": class_total,
+            "present": class_present,
+            "absent": class_absent,
+            "percentage": class_percentage,
+        }
+
+    # ==========================================
+    # STUDENT-WISE OVERALL SUMMARY
+    # ==========================================
+
+    student_summary = {}
+
+    for record in attendance:
+
+        student_id = record.student_id
+
+        if student_id not in student_summary:
+
+            student_summary[student_id] = {
+                "student": record.student,
+                "present": 0,
+                "absent": 0,
+                "total": 0,
+            }
+
+        student_summary[student_id]["total"] += 1
+
+        if record.status == "Present":
+
+            student_summary[student_id]["present"] += 1
+
+        elif record.status == "Absent":
+
+            student_summary[student_id]["absent"] += 1
+
+    student_summary_list = []
+
+    for item in student_summary.values():
+
+        if item["total"] > 0:
+
+            item["percentage"] = round(
+                (item["present"] / item["total"]) * 100,
+                2
+            )
+
+        else:
+
+            item["percentage"] = 0
+
+        student_summary_list.append(item)
+
+    # ==========================================
+    # FILTER OPTIONS
+    # ==========================================
+
+    if user_role == "Teacher":
 
         assignments = TeacherAssignment.objects.filter(
             teacher__user=request.user
@@ -109,7 +241,9 @@ def attendance_list(request):
 
         classes = SchoolClass.objects.filter(
             id__in=teacher_class_ids
-        ).order_by("display_order")
+        ).order_by(
+            "display_order"
+        )
 
         sections = Section.objects.filter(
             id__in=teacher_section_ids
@@ -129,19 +263,48 @@ def attendance_list(request):
             "name"
         )
 
+    # ==========================================
+    # PAGINATION
+    # ==========================================
+
+    paginator = Paginator(
+        attendance,
+        10
+    )
+
+    page_number = request.GET.get("page")
+
+    attendance_page = paginator.get_page(
+        page_number
+    )
+
+    # ==========================================
+    # CONTEXT
+    # ==========================================
+
     context = {
-        "attendance": attendance,
+
+        "attendance": attendance_page,
+
+        # Filters
         "classes": classes,
         "sections": sections,
         "search": search,
-        "date": date,
+        "date": selected_date,
         "selected_class": school_class,
         "selected_section": section,
-        "status": status,
+
+        # Summary
         "total": total,
         "present": present,
         "absent": absent,
-        "leave": leave,
+        "attendance_percentage": attendance_percentage,
+
+        # Class summary
+        "class_summary": class_summary,
+
+        # Student summary
+        "student_summary": student_summary_list,
     }
 
     return render(

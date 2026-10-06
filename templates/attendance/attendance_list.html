@@ -1,17 +1,25 @@
+```html
 {% extends "dashboard/base_dashboard.html" %}
 
 {% block title %}
-Attendance
+Student Attendance
 {% endblock %}
 
 {% block content %}
+
 {% include "components/messages.html" %}
+
 <div class="container-fluid">
 
-    <!-- Page Header -->
+    <!-- ================= PAGE HEADER ================= -->
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2>Attendance Records</h2>
+        <div>
+            <h2 class="mb-1">Student Attendance</h2>
+            <p class="text-muted mb-0">
+                View and manage student attendance records
+            </p>
+        </div>
 
         <a href="{% url 'mark_attendance' %}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i>
@@ -20,61 +28,239 @@ Attendance
 
     </div>
 
-    <!-- Summary Cards -->
-    <div class="row mb-4">
 
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm bg-success text-white">
-                <div class="card-body text-center">
-                    <h6>Present</h6>
-                    <h2>{{ present }}</h2>
-                </div>
-            </div>
-        </div>
+    <!-- ================= FILTERS ================= -->
+    <div class="card shadow-sm border-0 mb-4">
 
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm bg-danger text-white">
-                <div class="card-body text-center">
-                    <h6>Absent</h6>
-                    <h2>{{ absent }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm bg-warning text-dark">
-                <div class="card-body text-center">
-                    <h6>Leave</h6>
-                    <h2>{{ leave }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm bg-primary text-white">
-                <div class="card-body text-center">
-                    <h6>Total</h6>
-                    <h2>{{ total }}</h2>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Attendance Chart -->
-    <div class="card shadow mb-4">
-
-        <div class="card-header">
-            <h5 class="mb-0">Attendance Overview</h5>
+        <div class="card-header bg-white">
+            <h5 class="mb-0">
+                <i class="bi bi-funnel"></i>
+                Attendance Filters
+            </h5>
         </div>
 
         <div class="card-body">
 
-            <div class="d-flex justify-content-center">
+            <form method="GET">
 
-                <div style="width:300px; height:300px;">
+                <div class="row g-3">
 
-                    <canvas id="attendanceChart"></canvas>
+                    <!-- Date -->
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            value="{{ date }}"
+                            class="form-control"
+                        >
+
+                    </div>
+
+
+                    <!-- Class -->
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Class
+                        </label>
+
+                        <select name="class" class="form-select">
+
+                            <option value="">
+                                All Classes
+                            </option>
+
+                            {% for class in classes %}
+
+                                <option
+                                    value="{{ class.id }}"
+                                    {% if selected_class|stringformat:"s" == class.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ class }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Section -->
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Section
+                        </label>
+
+                        <select name="section" class="form-select">
+
+                            <option value="">
+                                All Sections
+                            </option>
+
+                            {% for section in sections %}
+
+                                <option
+                                    value="{{ section.id }}"
+                                    {% if selected_section|stringformat:"s" == section.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ section }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Search -->
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Search Student
+                        </label>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Name / Admission No."
+                        >
+
+                    </div>
+
+
+                    <!-- Buttons -->
+                    <div class="col-12">
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                            Apply Filters
+                        </button>
+
+                        <a
+                            href="{% url 'attendance_list' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Reset
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SUMMARY CARDS ================= -->
+
+    <div class="row mb-4">
+
+        <!-- Total -->
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm bg-primary text-white">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-people fs-3"></i>
+
+                    <h6 class="mt-2">
+                        Total Marked
+                    </h6>
+
+                    <h2>
+                        {{ total }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Present -->
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm bg-success text-white">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-check-circle fs-3"></i>
+
+                    <h6 class="mt-2">
+                        Present
+                    </h6>
+
+                    <h2>
+                        {{ present }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Absent -->
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm bg-danger text-white">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-x-circle fs-3"></i>
+
+                    <h6 class="mt-2">
+                        Absent
+                    </h6>
+
+                    <h2>
+                        {{ absent }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Percentage -->
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm bg-dark text-white">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-graph-up-arrow fs-3"></i>
+
+                    <h6 class="mt-2">
+                        Attendance %
+                    </h6>
+
+                    <h2>
+                        {{ attendance_percentage }}%
+                    </h2>
 
                 </div>
 
@@ -84,8 +270,127 @@ Attendance
 
     </div>
 
-    <!-- Attendance Table -->
-    <div class="card shadow">
+
+    <!-- ================= CLASS SUMMARY ================= -->
+
+    {% if class_summary %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                <i class="bi bi-building"></i>
+                Selected Class Summary
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+
+                    <h6 class="text-muted">
+                        Total
+                    </h6>
+
+                    <h3>
+                        {{ class_summary.total }}
+                    </h3>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <h6 class="text-success">
+                        Present
+                    </h6>
+
+                    <h3 class="text-success">
+                        {{ class_summary.present }}
+                    </h3>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <h6 class="text-danger">
+                        Absent
+                    </h6>
+
+                    <h3 class="text-danger">
+                        {{ class_summary.absent }}
+                    </h3>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <h6 class="text-primary">
+                        Attendance %
+                    </h6>
+
+                    <h3 class="text-primary">
+                        {{ class_summary.percentage }}%
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ================= ATTENDANCE CHART ================= -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                <i class="bi bi-pie-chart"></i>
+                Attendance Overview
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div
+                class="d-flex justify-content-center"
+                style="height:300px;"
+            >
+
+                <canvas id="attendanceChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ATTENDANCE RECORDS ================= -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                <i class="bi bi-calendar-check"></i>
+                Attendance Records
+            </h5>
+
+        </div>
 
         <div class="card-body">
 
@@ -98,14 +403,21 @@ Attendance
                         <tr>
 
                             <th>Date</th>
+
+                            <th>Admission No.</th>
+
                             <th>Student</th>
+
                             <th>Class</th>
+
                             <th>Section</th>
+
                             <th>Status</th>
 
                         </tr>
 
                     </thead>
+
 
                     <tbody>
 
@@ -113,32 +425,252 @@ Attendance
 
                         <tr>
 
-                            <td>{{ record.date }}</td>
+                            <td>
+                                {{ record.date|date:"d-m-Y" }}
+                            </td>
 
-                            <td>{{ record.student }}</td>
 
-                            <td>{{ record.student.school_class }}</td>
+                            <td>
+                                {{ record.student.admission_number }}
+                            </td>
 
-                            <td>{{ record.student.section }}</td>
+
+                            <td>
+                                <strong>
+                                    {{ record.student.first_name }}
+                                    {{ record.student.last_name }}
+                                </strong>
+                            </td>
+
+
+                            <td>
+                                {{ record.student.school_class }}
+                            </td>
+
+
+                            <td>
+                                {{ record.student.section }}
+                            </td>
+
 
                             <td>
 
                                 {% if record.status == "Present" %}
 
-                                    <span class="badge bg-success">
+                                    <span class="badge bg-success px-3 py-2">
+                                        <i class="bi bi-check-circle"></i>
                                         Present
                                     </span>
 
                                 {% elif record.status == "Absent" %}
 
-                                    <span class="badge bg-danger">
+                                    <span class="badge bg-danger px-3 py-2">
+                                        <i class="bi bi-x-circle"></i>
                                         Absent
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="text-center text-muted py-4"
+                            >
+
+                                <i class="bi bi-calendar-x fs-2"></i>
+
+                                <p class="mb-0 mt-2">
+                                    No attendance records found.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ================= PAGINATION ================= -->
+
+            {% if attendance.has_other_pages %}
+
+            <div class="d-flex justify-content-center mt-3">
+
+                <nav>
+
+                    <ul class="pagination">
+
+                        {% if attendance.has_previous %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ attendance.previous_page_number }}&date={{ date }}&class={{ selected_class }}&section={{ selected_section }}&search={{ search }}"
+                            >
+                                Previous
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+
+                        <li class="page-item active">
+
+                            <span class="page-link">
+
+                                Page {{ attendance.number }}
+                                of {{ attendance.paginator.num_pages }}
+
+                            </span>
+
+                        </li>
+
+
+                        {% if attendance.has_next %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ attendance.next_page_number }}&date={{ date }}&class={{ selected_class }}&section={{ selected_section }}&search={{ search }}"
+                            >
+                                Next
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= STUDENT SUMMARY ================= -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                <i class="bi bi-person-lines-fill"></i>
+                Student-wise Attendance Summary
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Student</th>
+
+                            <th>Class</th>
+
+                            <th>Section</th>
+
+                            <th>Present</th>
+
+                            <th>Absent</th>
+
+                            <th>Total</th>
+
+                            <th>Attendance %</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for item in student_summary %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ item.student.first_name }}
+                                    {{ item.student.last_name }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ item.student.school_class }}
+                            </td>
+
+                            <td>
+                                {{ item.student.section }}
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    {{ item.present }}
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-danger">
+                                    {{ item.absent }}
+                                </span>
+
+                            </td>
+
+                            <td>
+                                {{ item.total }}
+                            </td>
+
+                            <td>
+
+                                {% if item.percentage >= 75 %}
+
+                                    <span class="badge bg-success">
+                                        {{ item.percentage }}%
+                                    </span>
+
+                                {% elif item.percentage >= 50 %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ item.percentage }}%
                                     </span>
 
                                 {% else %}
 
-                                    <span class="badge bg-warning text-dark">
-                                        Leave
+                                    <span class="badge bg-danger">
+                                        {{ item.percentage }}%
                                     </span>
 
                                 {% endif %}
@@ -151,8 +683,11 @@ Attendance
 
                         <tr>
 
-                            <td colspan="5" class="text-center">
-                                No attendance records found.
+                            <td
+                                colspan="7"
+                                class="text-center text-muted py-4"
+                            >
+                                No student attendance summary available.
                             </td>
 
                         </tr>
@@ -171,33 +706,36 @@ Attendance
 
 </div>
 
-<!-- Chart JS -->
+
+<!-- ================= CHART JS ================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-const ctx = document.getElementById('attendanceChart');
+const ctx = document.getElementById("attendanceChart");
 
 new Chart(ctx, {
 
-    type: 'pie',
+    type: "pie",
 
     data: {
 
-        labels: ['Present', 'Absent', 'Leave'],
+        labels: [
+            "Present",
+            "Absent"
+        ],
 
         datasets: [{
 
             data: [
                 {{ present }},
-                {{ absent }},
-                {{ leave }}
+                {{ absent }}
             ],
 
             backgroundColor: [
-                '#198754',
-                '#dc3545',
-                '#ffc107'
+                "#198754",
+                "#dc3545"
             ],
 
             borderWidth: 2
@@ -216,7 +754,7 @@ new Chart(ctx, {
 
             legend: {
 
-                position: 'bottom'
+                position: "bottom"
 
             }
 
@@ -229,3 +767,4 @@ new Chart(ctx, {
 </script>
 
 {% endblock %}
+```

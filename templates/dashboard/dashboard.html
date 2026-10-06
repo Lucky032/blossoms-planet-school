@@ -6,12 +6,14 @@ Dashboard
 
 {% block content %}
 
+{% with role=request.user.userprofile.role %}
+
 <div class="container-fluid">
 
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-
             <h2 class="fw-bold mb-1">
                 <i class="bi bi-speedometer2"></i>
                 Dashboard
@@ -20,32 +22,112 @@ Dashboard
             <p class="text-muted mb-0">
                 Welcome to Blossoms Planet School ERP
             </p>
-
         </div>
 
     </div>
 
-    <!-- Row 1 -->
 
-    <div class="row g-4">
+    <!-- ===================================================== -->
+    <!-- ADMIN / PRINCIPAL DASHBOARD -->
+    <!-- ===================================================== -->
 
-        <div class="col-lg-3 col-md-6">
+    {% if request.user.is_superuser or role == "Admin" or role == "Principal" %}
 
-            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+        <!-- Main Statistics -->
+        <div class="row g-4">
 
-                <div class="card-body">
+            <!-- Students -->
+            <div class="col-lg-3 col-md-6">
 
-                    <div class="d-flex justify-content-between align-items-center">
+                <div class="card border-0 shadow-sm bg-primary text-white h-100">
 
-                        <div>
+                    <div class="card-body">
 
-                            <h6>Total Students</h6>
+                        <div class="d-flex justify-content-between align-items-center">
 
-                            <h2>{{ student_count }}</h2>
+                            <div>
+                                <h6>Total Students</h6>
+                                <h2>{{ student_count }}</h2>
+                            </div>
+
+                            <i class="bi bi-people-fill fs-1"></i>
 
                         </div>
 
-                        <i class="bi bi-people-fill fs-1"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Teachers -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-success text-white h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h6>Teachers</h6>
+                                <h2>{{ teacher_count }}</h2>
+                            </div>
+
+                            <i class="bi bi-person-badge-fill fs-1"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Classes -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-warning h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h6>Classes</h6>
+                                <h2>{{ class_count }}</h2>
+                            </div>
+
+                            <i class="bi bi-building fs-1"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Subjects -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-danger text-white h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h6>Subjects</h6>
+                                <h2>{{ subject_count }}</h2>
+                            </div>
+
+                            <i class="bi bi-journal-bookmark-fill fs-1"></i>
+
+                        </div>
 
                     </div>
 
@@ -55,491 +137,1077 @@ Dashboard
 
         </div>
 
-        <div class="col-lg-3 col-md-6">
 
-            <div class="card border-0 shadow-sm bg-success text-white h-100">
+        <!-- Student Statistics -->
+        <!-- ===================================================== -->
+        <!-- TODAY'S STAFF ATTENDANCE -->
+        <!-- ===================================================== -->
 
-                <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-center">
+                <!-- ===================================================== -->
+        <!-- OVERALL STAFF ATTENDANCE -->
+        <!-- ===================================================== -->
 
-                        <div>
+        <div class="card shadow-sm mt-4">
 
-                            <h6>Teachers</h6>
+            <div class="card-header d-flex justify-content-between align-items-center">
 
-                            <h2>{{ teacher_count }}</h2>
-
-                        </div>
-
-                        <i class="bi bi-person-badge-fill fs-1"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm bg-warning h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <h6>Classes</h6>
-
-                            <h2>{{ class_count }}</h2>
-
-                        </div>
-
-                        <i class="bi bi-building fs-1"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm bg-danger text-white h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <h6>Subjects</h6>
-
-                            <h2>{{ subject_count }}</h2>
-
-                        </div>
-
-                        <i class="bi bi-journal-bookmark-fill fs-1"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Row 2 -->
-
-    <div class="row g-4 mt-1">
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-success">
-
-                        <i class="bi bi-check-circle-fill"></i>
-
-                        Active Students
-
-                    </h6>
-
-                    <h2>{{ active_students }}</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-danger">
-
-                        <i class="bi bi-x-circle-fill"></i>
-
-                        Inactive Students
-
-                    </h6>
-
-                    <h2>{{ inactive_students }}</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-primary">
-
-                        👦 Boys
-
-                    </h6>
-
-                    <h2>{{ male_students }}</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-danger">
-
-                        👧 Girls
-
-                    </h6>
-
-                    <h2>{{ female_students }}</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Charts -->
-
-    <div class="row mt-4">
-
-        <div class="col-lg-8">
-
-            <div class="card shadow-sm">
-
-                <div class="card-header">
-
+                <div>
                     <h5 class="mb-0">
-
-                        Student Statistics
-
+                        <i class="bi bi-bar-chart-fill"></i>
+                        Staff Attendance Summary
                     </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <canvas id="studentChart" height="110"></canvas>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-4">
-
-            <div class="card shadow-sm">
-
-                <div class="card-header">
-
-                    <h5 class="mb-0">
-
-                        Gender Distribution
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <canvas id="genderChart" height="220"></canvas>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Recent Admission Enquiries -->
-
-    <div class="card shadow mt-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-
-                Recent Admission Enquiries
-
-            </h5>
-
-        </div>
-
-        <div class="card-body">
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead class="table-light">
-
-                        <tr>
-
-                            <th>Student</th>
-                            <th>Parent</th>
-                            <th>Phone</th>
-                            <th>Status</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {% for enquiry in recent_admissions %}
-
-                        <tr>
-
-                            <td>{{ enquiry.student_name }}</td>
-
-                            <td>{{ enquiry.parent_name }}</td>
-
-                            <td>{{ enquiry.phone }}</td>
-
-                            <td>
-
-                                <span class="badge bg-info">
-
-                                    {{ enquiry.status }}
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        {% empty %}
-
-                        <tr>
-
-                            <td colspan="4" class="text-center">
-
-                                No admission enquiries available.
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div class="card shadow mt-4">
-
-    <div class="card-header">
-
-        <h5 class="mb-0">
-            📅 Upcoming Events
-        </h5>
-
-    </div>
-
-    <div class="card-body">
-
-        {% if recent_events %}
-
-            <div class="list-group">
-
-                {% for event in recent_events %}
-
-                    <div class="list-group-item">
-
-                        <h6 class="mb-1">
-                            {{ event.title }}
-                        </h6>
-
-                        <small class="text-muted">
-
-                            {{ event.event_date }}
-                            |
-                            {{ event.venue }}
-
-                        </small>
-
-                    </div>
-
-                {% endfor %}
-
-            </div>
-
-        {% else %}
-
-            <p class="text-muted mb-0">
-
-                No upcoming events.
-
-            </p>
-
-        {% endif %}
-
-    </div>
-
-</div>
-
-<div class="card shadow mt-4">
-
-    <div class="card-header">
-
-        <h5 class="mb-0">
-            ⭐ Latest Reviews
-        </h5>
-
-    </div>
-
-    <div class="card-body">
-
-        {% if recent_reviews %}
-
-            {% for review in recent_reviews %}
-
-                <div class="border-bottom mb-3 pb-3">
-
-                    <strong>
-
-                        {{ review.name }}
-
-                    </strong>
-
-                    <br>
 
                     <small class="text-muted">
-
-                        {{ review.designation }}
-
+                        Overall recorded attendance
                     </small>
+                </div>
 
-                    <p class="mt-2 mb-1">
+                <a href="{% url 'staff_attendance' %}"
+                   class="btn btn-sm btn-outline-primary">
 
-                        {{ review.review|truncatewords:20 }}
+                    <i class="bi bi-calendar-check"></i>
+                    Manage Attendance
 
-                    </p>
+                </a>
 
-                    <div>
+            </div>
 
-                        {% for i in "12345" %}
 
-                            {% if forloop.counter <= review.rating %}
+            <div class="card-body">
 
-                                ⭐
+                <div class="table-responsive">
 
-                            {% else %}
+                    <table class="table table-hover align-middle">
 
-                                ☆
+                        <thead class="table-light">
 
-                            {% endif %}
+                            <tr>
 
-                        {% endfor %}
+                                <th>Employee ID</th>
+                                <th>Staff Name</th>
+                                <th>Role</th>
+                                <th class="text-center">Present</th>
+                                <th class="text-center">Absent</th>
+                                <th class="text-center">Paid Leave</th>
+                                <th class="text-center">Unpaid Leave</th>
+                                <th class="text-center">Total Days</th>
+                                <th class="text-center">Attendance</th>
+                                <th class="text-center">Working Day %</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for item in staff_attendance_summary %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ item.staff.employee_id }}
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ item.staff.first_name }}
+
+                                        {{ item.staff.last_name }}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="badge bg-secondary">
+
+                                            {{ item.staff.role }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Present -->
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-success">
+
+                                            {{ item.present_days }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Absent -->
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-danger">
+
+                                            {{ item.absent_days }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Paid Leave -->
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-warning text-dark">
+
+                                            {{ item.paid_leave_days }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Unpaid Leave -->
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{ item.unpaid_leave_days }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Total Days -->
+
+                                    <td class="text-center">
+
+                                        <strong>
+
+                                            {{ item.total_marked_days }}
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- Attendance -->
+
+                                    <td class="text-center">
+
+                                        {% if item.attendance_percentage >= 90 %}
+
+                                            <span class="badge bg-success">
+
+                                                {{ item.attendance_percentage }}%
+
+                                            </span>
+
+                                        {% elif item.attendance_percentage >= 75 %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                {{ item.attendance_percentage }}%
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-danger">
+
+                                                {{ item.attendance_percentage }}%
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- Working Day Percentage -->
+
+                                    <td class="text-center">
+
+                                        <strong>
+
+                                            {{ item.working_day_percentage }}%
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td colspan="10"
+                                        class="text-center text-muted py-4">
+
+                                        <i class="bi bi-info-circle"></i>
+
+                                        No staff attendance records available.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+        <div class="card shadow-sm mt-4">
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-check-fill"></i>
+                        Today's Staff Attendance
+                    </h5>
+
+                    <small class="text-muted">
+                        {{ today|date:"d M Y" }}
+                    </small>
+                </div>
+
+                <a href="{% url 'staff_attendance' %}"
+                   class="btn btn-sm btn-primary">
+
+                    <i class="bi bi-calendar-check"></i>
+                    Manage Attendance
+
+                </a>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <!-- Attendance Summary -->
+
+                <div class="row g-3 mb-4">
+
+                    <!-- Total Staff -->
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="card border-0 bg-light h-100">
+
+                            <div class="card-body">
+
+                                <small class="text-muted">
+                                    Total Staff
+                                </small>
+
+                                <h3 class="fw-bold mb-0">
+                                    {{ staff_total }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Present -->
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="card border-0 bg-success-subtle h-100">
+
+                            <div class="card-body">
+
+                                <small class="text-success">
+                                    Present
+                                </small>
+
+                                <h3 class="fw-bold text-success mb-0">
+                                    {{ staff_present }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Absent -->
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="card border-0 bg-danger-subtle h-100">
+
+                            <div class="card-body">
+
+                                <small class="text-danger">
+                                    Absent
+                                </small>
+
+                                <h3 class="fw-bold text-danger mb-0">
+                                    {{ staff_absent }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Leave -->
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="card border-0 bg-warning-subtle h-100">
+
+                            <div class="card-body">
+
+                                <small class="text-warning-emphasis">
+                                    On Leave
+                                </small>
+
+                                <h3 class="fw-bold mb-0">
+                                    {{ staff_paid_leave|add:staff_unpaid_leave }}
+                                </h3>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            {% endfor %}
 
-        {% else %}
+                <!-- Attendance Status -->
 
-            <p class="text-muted">
+                {% if staff_attendance_marked == 0 %}
 
-                No reviews available.
+                    <div class="alert alert-warning">
 
-            </p>
+                        <i class="bi bi-exclamation-triangle-fill"></i>
 
-        {% endif %}
+                        <strong>
+                            Today's staff attendance has not been marked yet.
+                        </strong>
 
-    </div>
+                        <a href="{% url 'staff_attendance' %}"
+                           class="alert-link ms-2">
 
-</div>
+                            Mark Attendance
 
-<div class="card shadow mt-4">
+                        </a>
 
-    <div class="card-header">
+                    </div>
 
-        <h5 class="mb-0">
+                {% else %}
 
-            ⚡ Quick Actions
+                    <div class="table-responsive">
 
-        </h5>
+                        <table class="table table-hover align-middle mb-0">
 
-    </div>
+                            <thead class="table-light">
 
-    <div class="card-body">
+                                <tr>
 
-        <div class="d-flex flex-wrap gap-2">
+                                    <th>Employee ID</th>
+                                    <th>Staff Name</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Leave Type</th>
 
-            <a href="{% url 'add_student' %}" class="btn btn-primary">
+                                </tr>
 
-                + Student
+                            </thead>
 
-            </a>
+                            <tbody>
 
-            <a href="{% url 'admission' %}" class="btn btn-success">
+                                {% for item in staff_attendance_data %}
 
-                + Admission
+                                    <tr>
 
-            </a>
+                                        <td>
+                                            <strong>
+                                                {{ item.staff.employee_id }}
+                                            </strong>
+                                        </td>
 
-            <a href="{% url 'staff_create' %}" class="btn btn-warning">
+                                        <td>
+                                            {{ item.staff.first_name }}
+                                            {{ item.staff.last_name }}
+                                        </td>
 
-                + Staff
+                                        <td>
+                                            {{ item.staff.role }}
+                                        </td>
 
-            </a>
+                                        <td>
 
-            <a href="{% url 'marks_entry' %}" class="btn btn-danger">
+                                            {% if item.attendance %}
 
-                + Marks
+                                                {% if item.attendance.status == "Present" %}
 
-            </a>
+                                                    <span class="badge bg-success">
+                                                        <i class="bi bi-check-circle"></i>
+                                                        Present
+                                                    </span>
 
-            <a href="{% url 'mark_attendance' %}" class="btn btn-info">
+                                                {% elif item.attendance.status == "Absent" %}
 
-                Attendance
+                                                    <span class="badge bg-danger">
+                                                        <i class="bi bi-x-circle"></i>
+                                                        Absent
+                                                    </span>
 
-            </a>
+                                                {% elif item.attendance.status == "Leave" %}
+
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="bi bi-calendar-x"></i>
+                                                        Leave
+                                                    </span>
+
+                                                {% endif %}
+
+                                            {% else %}
+
+                                                <span class="badge bg-secondary">
+                                                    Not Marked
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if item.attendance and item.attendance.leave_type %}
+
+                                                {{ item.attendance.get_leave_type_display }}
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
 
         </div>
 
-    </div>
+
+        <!-- Charts -->
+        <div class="row mt-4">
+
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            Student Statistics
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <canvas id="studentChart" height="110"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+                            Gender Distribution
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <canvas id="genderChart" height="220"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Recent Admissions -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    Recent Admission Enquiries
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Parent</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for enquiry in recent_admissions %}
+
+                            <tr>
+
+                                <td>{{ enquiry.student_name }}</td>
+
+                                <td>{{ enquiry.parent_name }}</td>
+
+                                <td>{{ enquiry.phone }}</td>
+
+                                <td>
+                                    <span class="badge bg-info">
+                                        {{ enquiry.status }}
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="4" class="text-center">
+                                    No admission enquiries available.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Upcoming Events -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    📅 Upcoming Events
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if recent_events %}
+
+                    <div class="list-group">
+
+                        {% for event in recent_events %}
+
+                            <div class="list-group-item">
+
+                                <h6 class="mb-1">
+                                    {{ event.title }}
+                                </h6>
+
+                                <small class="text-muted">
+
+                                    {{ event.event_date }}
+                                    |
+                                    {{ event.venue }}
+
+                                </small>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-muted mb-0">
+                        No upcoming events.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Latest Reviews -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    ⭐ Latest Reviews
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if recent_reviews %}
+
+                    {% for review in recent_reviews %}
+
+                        <div class="border-bottom mb-3 pb-3">
+
+                            <strong>
+                                {{ review.name }}
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                {{ review.designation }}
+                            </small>
+
+                            <p class="mt-2 mb-1">
+                                {{ review.review|truncatewords:20 }}
+                            </p>
+
+                            <div>
+
+                                {% for i in "12345" %}
+
+                                    {% if forloop.counter <= review.rating %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No reviews available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Admin / Principal Quick Actions -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    ⚡ Quick Actions
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a href="{% url 'add_student' %}"
+                       class="btn btn-primary">
+                        + Student
+                    </a>
+
+                    <a href="{% url 'admission' %}"
+                       class="btn btn-success">
+                        + Admission
+                    </a>
+
+                    <a href="{% url 'staff_create' %}"
+                       class="btn btn-warning">
+                        + Staff
+                    </a>
+
+                    <a href="{% url 'marks_entry' %}"
+                       class="btn btn-danger">
+                        + Marks
+                    </a>
+
+                    <a href="{% url 'mark_attendance' %}"
+                       class="btn btn-info">
+                        Attendance
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    <!-- ===================================================== -->
+    <!-- TEACHER DASHBOARD -->
+    <!-- ===================================================== -->
+
+    {% elif role == "Teacher" %}
+
+        <!-- Teacher Welcome -->
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <h4 class="fw-bold mb-2">
+                    👋 Welcome, {{ request.user.first_name }}
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Manage your students, attendance, classes and marks
+                    from your teacher dashboard.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Teacher Statistics -->
+        <div class="row g-4">
+
+            <!-- Students -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-primary text-white h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h6>Students</h6>
+
+                                <h2>
+                                    {{ student_count }}
+                                </h2>
+
+                            </div>
+
+                            <i class="bi bi-people-fill fs-1"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Classes -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-warning h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h6>Classes</h6>
+
+                                <h2>
+                                    {{ class_count }}
+                                </h2>
+
+                            </div>
+
+                            <i class="bi bi-building fs-1"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Subjects -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm bg-danger text-white h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h6>Subjects</h6>
+
+                                <h2>
+                                    {{ subject_count }}
+                                </h2>
+
+                            </div>
+
+                            <i class="bi bi-journal-bookmark-fill fs-1"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Teacher Student Overview -->
+        <div class="row g-4 mt-1">
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <h6 class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Active Students
+                        </h6>
+
+                        <h2>
+                            {{ active_students }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <h6 class="text-primary">
+                            👦 Boys
+                        </h6>
+
+                        <h2>
+                            {{ male_students }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <h6 class="text-danger">
+                            👧 Girls
+                        </h6>
+
+                        <h2>
+                            {{ female_students }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Teacher Actions -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    ⚡ Teacher Actions
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a href="{% url 'attendance_list' %}"
+                       class="btn btn-info">
+                        <i class="bi bi-calendar-check"></i>
+                        Student Attendance
+                    </a>
+
+                    <a href="{% url 'marks_entry' %}"
+                       class="btn btn-danger">
+                        <i class="bi bi-pencil-square"></i>
+                        Enter Marks
+                    </a>
+
+                    <a href="{% url 'student_list' %}"
+                       class="btn btn-primary">
+                        <i class="bi bi-people-fill"></i>
+                        Students
+                    </a>
+
+                    <a href="{% url 'class_list' %}"
+                       class="btn btn-warning">
+                        <i class="bi bi-building"></i>
+                        Classes
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Upcoming Events -->
+        <div class="card shadow mt-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+                    📅 Upcoming Events
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if recent_events %}
+
+                    <div class="list-group">
+
+                        {% for event in recent_events %}
+
+                            <div class="list-group-item">
+
+                                <h6 class="mb-1">
+                                    {{ event.title }}
+                                </h6>
+
+                                <small class="text-muted">
+
+                                    {{ event.event_date }}
+                                    |
+                                    {{ event.venue }}
+
+                                </small>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-muted mb-0">
+                        No upcoming events.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+    {% endif %}
 
 </div>
 
+{% endwith %}
+
+
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -557,13 +1225,9 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
 
                 labels: [
-
                     "Total",
-
                     "Active",
-
                     "Inactive"
-
                 ],
 
                 datasets: [{
@@ -571,23 +1235,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     label: "Students",
 
                     data: [
-
                         {{ chart_students.0 }},
-
                         {{ chart_students.1 }},
-
                         {{ chart_students.2 }}
-
                     ],
 
                     backgroundColor: [
-
                         "#0d6efd",
-
                         "#198754",
-
                         "#dc3545"
-
                     ],
 
                     borderRadius: 6
@@ -605,9 +1261,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 plugins: {
 
                     legend: {
-
                         display: false
-
                     }
 
                 }
@@ -617,6 +1271,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     }
+
 
     const genderCtx = document.getElementById("genderChart");
 
@@ -629,29 +1284,20 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
 
                 labels: [
-
                     "Boys",
-
                     "Girls"
-
                 ],
 
                 datasets: [{
 
                     data: [
-
                         {{ chart_gender.0 }},
-
                         {{ chart_gender.1 }}
-
                     ],
 
                     backgroundColor: [
-
                         "#0d6efd",
-
                         "#ff69b4"
-
                     ]
 
                 }]
@@ -667,9 +1313,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 plugins: {
 
                     legend: {
-
                         position: "bottom"
-
                     }
 
                 }

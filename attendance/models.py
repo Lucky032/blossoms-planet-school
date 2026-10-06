@@ -18,8 +18,6 @@ class Attendance(models.Model):
 
         ("Absent", "Absent"),
 
-        ("Leave", "Leave"),
-
     ]
 
     student = models.ForeignKey(

@@ -1,4 +1,5 @@
 {% with role=request.user.userprofile.role %}
+
 <div class="col-md-2 sidebar text-white p-3">
 
     <h3 class="mb-4">
@@ -9,168 +10,188 @@
     <ul class="nav flex-column">
 
         <!-- Dashboard -->
-
         {% if request.user.is_authenticated %}
         <li class="nav-item mb-2">
-
             <a href="{% url 'dashboard' %}" class="nav-link text-white">
-
                 <i class="bi bi-speedometer2"></i>
-
                 Dashboard
-
             </a>
-
         </li>
         {% endif %}
 
-        <!-- Students -->
 
-        {% if request.user.is_authenticated %}
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'student_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-people-fill"></i>
-
-                Students
-
-            </a>
-
-        </li>
-        {% endif %}
-
-        <!-- Staff -->
+        <!-- ============================= -->
+        <!-- ADMIN / PRINCIPAL -->
+        <!-- ============================= -->
 
         {% if request.user.is_superuser or role == "Admin" or role == "Principal" %}
-        <li class="nav-item mb-2">
 
-            <a href="{% url 'staff_list' %}" class="nav-link text-white">
+            <!-- Students -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'student_list' %}" class="nav-link text-white">
+                    <i class="bi bi-people-fill"></i>
+                    Students
+                </a>
+            </li>
 
-                <i class="bi bi-person-badge-fill"></i>
+            <!-- Staff -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'staff_list' %}" class="nav-link text-white">
+                    <i class="bi bi-person-badge-fill"></i>
+                    Staff
+                </a>
+            </li>
 
-                Staff
+            <!-- Classes -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'class_list' %}" class="nav-link text-white">
+                    <i class="bi bi-building"></i>
+                    Classes
+                </a>
+            </li>
 
-            </a>
+            <!-- Academics -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'student_list' %}" class="nav-link text-white">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                    Academics
+                </a>
+            </li>
 
-        </li>
+            <!-- Admissions -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'admission' %}" class="nav-link text-white">
+                    <i class="bi bi-person-lines-fill"></i>
+                    Admissions
+                </a>
+            </li>
+
+            <!-- Student Attendance -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'attendance_list' %}" class="nav-link text-white">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    Attendance
+                </a>
+            </li>
+
+            <!-- Staff Attendance -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'staff_attendance' %}" class="nav-link text-white">
+                    <i class="bi bi-person-check-fill"></i>
+                    Staff Attendance
+                </a>
+            </li>
+
+            <!-- Fees -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'fee_collection_list' %}" class="nav-link text-white">
+                    <i class="bi bi-cash-stack"></i>
+                    Fees
+                </a>
+            </li>
+
+            <!-- Exams / Marks -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'marks_entry' %}" class="nav-link text-white">
+                    <i class="bi bi-pencil-square"></i>
+                    Exams & Marks
+                </a>
+            </li>
+
+            <!-- Events -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'event_list' %}" class="nav-link text-white">
+                    <i class="bi bi-calendar-event-fill"></i>
+                    Events
+                </a>
+            </li>
+
+            <!-- Reviews -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'review_list' %}" class="nav-link text-white">
+                    <i class="bi bi-chat-square-text-fill"></i>
+                    Reviews
+                </a>
+            </li>
+
         {% endif %}
 
-        <!-- Teacher Approvals -->
+
+        <!-- ============================= -->
+        <!-- ADMIN ONLY -->
+        <!-- ============================= -->
 
         {% if request.user.is_superuser or role == "Admin" %}
-        <li class="nav-item mb-2">
-            <a href="{% url 'pending_teachers' %}" class="nav-link text-white">
-                <i class="bi bi-person-check-fill"></i>
-                Teacher Approvals
-            </a>
-        </li>
+
+            <!-- Teacher Approvals -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'pending_teachers' %}" class="nav-link text-white">
+                    <i class="bi bi-person-check-fill"></i>
+                    Teacher Approvals
+                </a>
+            </li>
+
         {% endif %}
 
-        <!-- Classes -->
 
-        {% if request.user.is_authenticated %}
-        <li class="nav-item mb-2">
-            <a href="{% url 'class_list' %}" class="nav-link text-white">
-                <i class="bi bi-building"></i>
-                Classes
-            </a>
-        </li>
+        <!-- ============================= -->
+        <!-- TEACHER -->
+        <!-- ============================= -->
+
+        {% if role == "Teacher" %}
+
+            <!-- Students -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'student_list' %}" class="nav-link text-white">
+                    <i class="bi bi-people-fill"></i>
+                    My Students
+                </a>
+            </li>
+
+            <!-- Classes -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'class_list' %}" class="nav-link text-white">
+                    <i class="bi bi-building"></i>
+                    My Classes
+                </a>
+            </li>
+
+            <!-- Academics -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'student_list' %}" class="nav-link text-white">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                    Academics
+                </a>
+            </li>
+
+            <!-- Student Attendance -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'attendance_list' %}" class="nav-link text-white">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    Student Attendance
+                </a>
+            </li>
+
+            <!-- Exams / Marks -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'marks_entry' %}" class="nav-link text-white">
+                    <i class="bi bi-pencil-square"></i>
+                    Marks & Exams
+                </a>
+            </li>
+
+            <!-- Events -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'event_list' %}" class="nav-link text-white">
+                    <i class="bi bi-calendar-event-fill"></i>
+                    Events
+                </a>
+            </li>
+
         {% endif %}
 
-        <!-- Academics -->
-
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'student_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-journal-bookmark-fill"></i>
-
-                Academics
-
-            </a>
-
-        </li>
-
-        <!-- Admissions -->
-
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'admission' %}" class="nav-link text-white">
-
-                <i class="bi bi-person-lines-fill"></i>
-
-                Admissions
-
-            </a>
-
-        </li>
-
-        <!-- Attendance -->
-
-        {% if request.user.is_superuser or role == "Admin" or role == "Receptionist" %}
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'attendance_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-calendar-check-fill"></i>
-
-                Attendance
-
-            </a>
-
-        </li>
-        {% endif %}
-
-        <!-- Fees -->
-
-        {% if request.user.is_superuser or role == "Admin" or role == "Accountant" %}
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'fee_collection_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-cash-stack"></i>
-
-                Fees
-
-            </a>
-
-        </li>
-        {% endif %}
-
-        <!-- Events -->
-
-        {% if request.user.is_superuser or role == "Admin" or role == "Principal" %}
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'event_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-calendar-event-fill"></i>
-
-                Events
-
-            </a>
-
-        </li>
-        {% endif %}
-
-        <!-- Reviews -->
-
-        {% if request.user.is_superuser or role == "Admin" or role == "Principal" %}
-        <li class="nav-item mb-2">
-
-            <a href="{% url 'review_list' %}" class="nav-link text-white">
-
-                <i class="bi bi-chat-square-text-fill"></i>
-
-                Reviews
-
-            </a>
-
-        </li>
-        {% endif %}
-
-    </ul>   
-    {% endwith %}
+    </ul>
 
 </div>
+
+{% endwith %}

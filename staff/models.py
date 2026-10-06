@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from django.contrib.auth.models import User
 
 
 class Staff(models.Model):
@@ -17,6 +18,14 @@ class Staff(models.Model):
         ("Accountant", "Accountant"),
         ("Librarian", "Librarian"),
         ("Office Staff", "Office Staff"),
+    )
+
+    user = models.OneToOneField(
+    User,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name="staff_profile",
     )
 
     employee_id = models.CharField(
