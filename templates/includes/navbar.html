@@ -5,9 +5,7 @@
 
     .blossoms-navbar {
         background: #1677f2 !important;
-
         min-height: 72px;
-
         padding: 0 !important;
     }
 
@@ -16,21 +14,16 @@
 
     .blossoms-navbar .container {
         width: 100% !important;
-
         max-width: none !important;
-
         margin: 0 !important;
 
         padding-left: 28px !important;
-
         padding-right: 28px !important;
 
         min-height: 72px;
 
         display: flex;
-
         align-items: center;
-
         justify-content: space-between;
     }
 
@@ -43,15 +36,12 @@
         color: #ffffff !important;
 
         font-size: 25px !important;
-
         font-weight: 800 !important;
 
         padding: 0 !important;
-
         margin: 0 !important;
 
         line-height: 1 !important;
-
         white-space: nowrap;
     }
 
@@ -62,7 +52,6 @@
 
     .blossoms-navbar .navbar-collapse {
         flex-grow: 0 !important;
-
         margin-left: auto !important;
     }
 
@@ -71,22 +60,18 @@
         display: flex !important;
 
         flex-direction: row !important;
-
         align-items: center !important;
-
         justify-content: flex-end !important;
 
-        gap: 10px !important;
+        gap: 7px !important;
 
         margin: 0 !important;
-
         padding: 0 !important;
     }
 
 
     .blossoms-navbar .nav-item {
         margin: 0 !important;
-
         padding: 0 !important;
     }
 
@@ -94,11 +79,10 @@
     .blossoms-navbar .nav-link {
         color: #ffffff !important;
 
-        font-size: 16px !important;
-
+        font-size: 15px !important;
         font-weight: 700 !important;
 
-        padding: 10px 15px !important;
+        padding: 10px 13px !important;
 
         margin: 0 !important;
 
@@ -109,6 +93,10 @@
         white-space: nowrap;
 
         opacity: 1 !important;
+
+        transition:
+            background 0.25s ease,
+            transform 0.25s ease;
     }
 
 
@@ -117,8 +105,48 @@
     .blossoms-navbar .nav-link:hover {
         color: #ffffff !important;
 
-        background:
-            rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.14);
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================================
+       LOGIN BUTTON
+       ========================================= */
+
+    .blossoms-navbar .login-link {
+        margin-left: 8px !important;
+
+        padding: 10px 20px !important;
+
+        background: #ffffff !important;
+
+        color: #1677f2 !important;
+
+        border-radius: 9px !important;
+
+        font-weight: 800 !important;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+        transition:
+            background 0.25s ease,
+            color 0.25s ease,
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+
+    .blossoms-navbar .login-link:hover {
+        background: #f3f7ff !important;
+
+        color: #0d5dcc !important;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 7px 18px rgba(0, 0, 0, 0.16);
     }
 
 
@@ -130,15 +158,17 @@
 
         .blossoms-navbar .container {
             padding-left: 18px !important;
-
             padding-right: 18px !important;
         }
 
+
         .blossoms-navbar .navbar-collapse {
             width: 100%;
-
             margin-top: 10px;
+
+            padding-bottom: 10px;
         }
+
 
         .blossoms-navbar .navbar-nav {
             flex-direction: column !important;
@@ -148,10 +178,34 @@
             gap: 2px !important;
         }
 
+
         .blossoms-navbar .nav-link {
             width: 100%;
 
             text-align: left;
+
+            padding: 12px 15px !important;
+        }
+
+
+        .blossoms-navbar .login-link {
+            margin-left: 0 !important;
+            margin-top: 5px !important;
+
+            text-align: center !important;
+        }
+
+    }
+
+
+    /* =========================================
+       SMALL MOBILE
+       ========================================= */
+
+    @media (max-width: 480px) {
+
+        .blossoms-navbar .navbar-brand {
+            font-size: 20px !important;
         }
 
     }
@@ -162,7 +216,10 @@
 
     <div class="container">
 
-        <!-- LEFT -->
+
+        <!-- =====================================
+             LEFT - SCHOOL NAME
+        ====================================== -->
 
         <a
             class="navbar-brand"
@@ -173,7 +230,9 @@
         </a>
 
 
-        <!-- MOBILE BUTTON -->
+        <!-- =====================================
+             MOBILE BUTTON
+        ====================================== -->
 
         <button
             class="navbar-toggler"
@@ -189,13 +248,18 @@
         </button>
 
 
-        <!-- RIGHT -->
+        <!-- =====================================
+             RIGHT - NAVIGATION
+        ====================================== -->
 
         <div
             class="collapse navbar-collapse"
             id="navbar">
 
             <ul class="navbar-nav">
+
+
+                <!-- HOME -->
 
                 <li class="nav-item">
 
@@ -210,6 +274,8 @@
                 </li>
 
 
+                <!-- ABOUT -->
+
                 <li class="nav-item">
 
                     <a
@@ -223,11 +289,43 @@
                 </li>
 
 
+                <!-- ACADEMICS -->
+
                 <li class="nav-item">
 
                     <a
                         class="nav-link"
-                        href="/admission/">
+                        href="/academics/">
+
+                        Academics
+
+                    </a>
+
+                </li>
+
+
+                <!-- CAMPUS LIFE -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/campus-life/">
+
+                        Campus Life
+
+                    </a>
+
+                </li>
+
+
+                <!-- ADMISSIONS -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="/admissions/">
 
                         Admissions
 
@@ -235,6 +333,8 @@
 
                 </li>
 
+
+                <!-- CONTACT -->
 
                 <li class="nav-item">
 
@@ -248,6 +348,23 @@
 
                 </li>
 
+
+                <!-- LOGIN -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link login-link"
+                        href="/accounts/login/">
+                        
+
+                        Login
+
+                    </a>
+
+                </li>
+
+
             </ul>
 
         </div>
@@ -255,3 +372,4 @@
     </div>
 
 </nav>
+```

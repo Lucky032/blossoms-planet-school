@@ -68,3 +68,6 @@ def contact(request):
         "core/contact.html",
         context
     )
+
+def campus_life(request):
+    return render(request, "core/campus_life.html")

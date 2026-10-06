@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 
 from staff.models import Staff
+from accounts.decorators import allowed_roles
 
 
 # ============================================================
@@ -352,6 +353,7 @@ def profile(request):
 # ============================================================
 
 @login_required
+@allowed_roles("Admin", "Principal")
 def user_list(request):
 
     users = User.objects.all().order_by("username")
@@ -370,6 +372,7 @@ def user_list(request):
 # ============================================================
 
 @login_required
+@allowed_roles("Admin", "Principal")
 def user_create(request):
 
     if request.method == "POST":
@@ -427,6 +430,7 @@ def user_create(request):
 # ============================================================
 
 @login_required
+@allowed_roles("Admin", "Principal")
 def user_update(request, pk):
 
     user = get_object_or_404(
@@ -506,6 +510,7 @@ def user_update(request, pk):
 # ============================================================
 
 @login_required
+@allowed_roles("Admin", "Principal")
 def user_delete(request, pk):
 
     user = get_object_or_404(
@@ -702,7 +707,7 @@ def reset_password(request):
 def pending_teachers(request):
 
     teachers = UserProfile.objects.filter(
-        role="Teacher",
+        role__in=["Teacher", "Principal"],
         is_approved=False,
     ).select_related("user")
 

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Attendance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .date-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="date"],
+        select,
+        textarea {
+            padding: 9px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+        }
+
+        button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+
+        .remarks {
+            width: 180px;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <div>
+            <h1>Staff Attendance</h1>
+            <a href="{% url 'staff_list' %}" class="back-link">
+                ← Back to Staff
+            </a>
+        </div>
+
+        <form method="get" class="date-form">
+            <label for="date">Date:</label>
+
+            <input
+                type="date"
+                id="date"
+                name="date"
+                value="{{ selected_date }}"
+            >
+
+            <button type="submit">
+                View
+            </button>
+        </form>
+
+    </div>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="attendance_date"
+            value="{{ selected_date }}"
+        >
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Staff Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Leave Type</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in attendance_data %}
+
+                {% with staff=item.staff record=item.record %}
+
+                <tr>
+
+                    <td>
+                        {{ staff.employee_id }}
+                    </td>
+
+                    <td>
+                        {{ staff.first_name }} {{ staff.last_name }}
+                    </td>
+
+                    <td>
+                        {{ staff.role }}
+                    </td>
+
+                    <td>
+
+                        <select name="status_{{ staff.id }}">
+
+                            <option value="Present"
+                                {% if record and record.status == "Present" %}selected{% endif %}>
+                                Present
+                            </option>
+
+                            <option value="Absent"
+                                {% if record and record.status == "Absent" %}selected{% endif %}>
+                                Absent
+                            </option>
+
+                            <option value="Leave"
+                                {% if record and record.status == "Leave" %}selected{% endif %}>
+                                Leave
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <select name="leave_type_{{ staff.id }}">
+
+                            <option value="">
+                                --
+                            </option>
+
+                            <option value="Paid"
+                                {% if record and record.leave_type == "Paid" %}selected{% endif %}>
+                                Paid Leave
+                            </option>
+
+                            <option value="Unpaid"
+                                {% if record and record.leave_type == "Unpaid" %}selected{% endif %}>
+                                Unpaid Leave
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <textarea
+                            name="remarks_{{ staff.id }}"
+                            class="remarks"
+                            rows="1"
+                        >{% if record %}{{ record.remarks }}{% endif %}</textarea>
+
+                    </td>
+
+                </tr>
+
+                {% endwith %}
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="6">
+                        No active staff found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <button type="submit" class="save-btn">
+            Save Staff Attendance
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -6,7 +6,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import Review
 
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import allowed_roles
 
+
+@login_required
+@allowed_roles("Admin", "Principal")
 def review_list(request):
 
     search = request.GET.get("search", "")
@@ -33,6 +38,8 @@ def review_list(request):
     )
 
 
+@login_required
+@allowed_roles("Admin", "Principal")
 def review_create(request):
 
     if request.method == "POST":
@@ -66,7 +73,8 @@ def review_create(request):
         },
     )
 
-
+@login_required
+@allowed_roles("Admin", "Principal")
 def review_update(request, pk):
 
     review = get_object_or_404(
@@ -109,6 +117,8 @@ def review_update(request, pk):
     )
 
 
+@login_required
+@allowed_roles("Admin", "Principal")
 def review_delete(request, pk):
 
     review = get_object_or_404(

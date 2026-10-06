@@ -6,6 +6,12 @@ from . import views
 urlpatterns = [
 
     path(
+    "attendance/",
+    views.staff_attendance,
+    name="staff_attendance",
+    ),
+
+    path(
         "",
         views.staff_list,
         name="staff_list",

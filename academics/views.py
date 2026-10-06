@@ -767,3 +767,9 @@ def teacher_assignment_delete(request, pk):
         "academics/teacher_assignment_delete.html",
         {"assignment": assignment}
     )
+
+def academics_home(request):
+    return render(
+        request,
+        "academics/academics_home.html"
+    )

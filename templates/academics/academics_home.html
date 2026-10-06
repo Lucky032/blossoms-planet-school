@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academics | Blossoms Planet School</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fc;
+            color: #1f2937;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1677f2, #4f9df8);
+            color: white;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Main */
+        .container {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            transition: 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+        }
+
+        .icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #eaf3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .card h3 {
+            color: #1e3a5f;
+            margin-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #1677f2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #0d5dcc;
+        }
+
+        /* Bottom Info */
+        .info-box {
+            margin-top: 55px;
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-box h2 {
+            color: #1e3a5f;
+            margin-bottom: 12px;
+        }
+
+        .info-box p {
+            max-width: 750px;
+            margin: auto;
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 50px 20px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                margin: 35px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero -->
+    <section class="header">
+        <h1>Academic Excellence</h1>
+
+        <p>
+            At Blossoms Planet School, we provide a structured and
+            supportive academic environment where every student can
+            learn, grow and achieve their potential.
+        </p>
+    </section>
+
+
+    <!-- Academic Management -->
+    <main class="container">
+
+        <div class="section-title">
+            <h2>Academic Management</h2>
+
+            <p>
+                Explore and manage the different areas of our academic system.
+            </p>
+        </div>
+
+
+        <div class="cards">
+
+            <!-- Students -->
+            <div class="card">
+                <div class="icon">🎓</div>
+
+                <h3>Students</h3>
+
+                <p>
+                    View student records, search students and manage
+                    student information.
+                </p>
+
+                <a href="{% url 'student_list' %}" class="btn">
+                    View Students
+                </a>
+            </div>
+
+
+            <!-- Classes -->
+            <div class="card">
+                <div class="icon">🏫</div>
+
+                <h3>Classes</h3>
+
+                <p>
+                    Manage school classes and maintain an organized
+                    academic structure.
+                </p>
+
+                <a href="{% url 'class_list' %}" class="btn">
+                    View Classes
+                </a>
+            </div>
+
+
+            <!-- Sections -->
+            <div class="card">
+                <div class="icon">👥</div>
+
+                <h3>Sections</h3>
+
+                <p>
+                    Organize students into sections and manage class
+                    divisions easily.
+                </p>
+
+                <a href="{% url 'section_list' %}" class="btn">
+                    View Sections
+                </a>
+            </div>
+
+
+            <!-- Academic Years -->
+            <div class="card">
+                <div class="icon">📅</div>
+
+                <h3>Academic Years</h3>
+
+                <p>
+                    Manage academic years and keep school records
+                    properly organized.
+                </p>
+
+                <a href="{% url 'academic_year_list' %}" class="btn">
+                    View Academic Years
+                </a>
+            </div>
+
+
+            <!-- Subjects -->
+            <div class="card">
+                <div class="icon">📚</div>
+
+                <h3>Subjects</h3>
+
+                <p>
+                    Manage subjects offered by the school and maintain
+                    the academic curriculum.
+                </p>
+
+                <a href="{% url 'subject_list' %}" class="btn">
+                    View Subjects
+                </a>
+            </div>
+
+
+            <!-- Teacher Assignments -->
+            <div class="card">
+                <div class="icon">👨‍🏫</div>
+
+                <h3>Teacher Assignments</h3>
+
+                <p>
+                    Assign teachers to subjects, classes, sections and
+                    academic years.
+                </p>
+
+                <a href="{% url 'teacher_assignment_list' %}" class="btn">
+                    View Assignments
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- Information -->
+        <div class="info-box">
+
+            <h2>Building a Strong Academic Foundation</h2>
+
+            <p>
+                Our academic system brings students, teachers, classes,
+                subjects and academic years together in one organized
+                platform, helping the school manage academic activities
+                efficiently.
+            </p>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+```

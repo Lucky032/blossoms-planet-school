@@ -4,6 +4,12 @@ from . import views
 urlpatterns = [
 
     path(
+    "",
+    views.academics_home,
+    name="academics_home",
+    ),
+
+    path(
         "students/",
         views.student_list,
         name="student_list",
@@ -92,5 +98,6 @@ path(
     views.teacher_assignment_delete,
     name="teacher_assignment_delete",
 ),
+
 
 ]

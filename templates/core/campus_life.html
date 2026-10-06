@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Life | Blossoms Planet School</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f9fd;
+            color: #1f2937;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1677f2, #5aa5ff);
+            color: white;
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: auto;
+            font-size: 18px;
+            line-height: 1.7;
+            opacity: 0.96;
+        }
+
+        /* Main */
+        .container {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 17px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            transition: 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.11);
+        }
+
+        .icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #eaf3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 31px;
+        }
+
+        .card h3 {
+            color: #1e3a5f;
+            font-size: 21px;
+            margin-bottom: 11px;
+        }
+
+        .card p {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* Experience section */
+        .experience {
+            margin-top: 60px;
+            background: white;
+            border-radius: 20px;
+            padding: 45px 35px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .experience h2 {
+            color: #1e3a5f;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .experience p {
+            max-width: 800px;
+            margin: auto;
+            color: #6b7280;
+            line-height: 1.75;
+        }
+
+        /* Bottom highlights */
+        .highlights {
+            margin-top: 35px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .highlight {
+            background: #eaf3ff;
+            padding: 25px 15px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .highlight strong {
+            display: block;
+            font-size: 27px;
+            color: #1677f2;
+            margin-bottom: 7px;
+        }
+
+        .highlight span {
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .highlights {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .cards,
+            .highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .experience {
+                padding: 35px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Life Beyond the Classroom</h1>
+
+        <p>
+            At Blossoms Planet School, campus life is about learning,
+            friendship, creativity, confidence and discovering new
+            talents every day.
+        </p>
+    </section>
+
+
+    <main class="container">
+
+        <!-- Activities -->
+        <div class="section-title">
+            <h2>Explore Campus Life</h2>
+
+            <p>
+                A vibrant environment where students learn, play,
+                participate and grow together.
+            </p>
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">⚽</div>
+
+                <h3>Sports & Games</h3>
+
+                <p>
+                    Students get opportunities to stay active,
+                    develop teamwork and enjoy healthy competition.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🎨</div>
+
+                <h3>Arts & Creativity</h3>
+
+                <p>
+                    Creative activities encourage students to express
+                    their ideas and discover their artistic talents.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🎭</div>
+
+                <h3>Cultural Activities</h3>
+
+                <p>
+                    Celebrations and cultural programs help students
+                    understand traditions and confidently participate.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🔬</div>
+
+                <h3>Clubs & Learning</h3>
+
+                <p>
+                    Interactive activities and clubs encourage curiosity,
+                    exploration and practical learning.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🌱</div>
+
+                <h3>Nature & Environment</h3>
+
+                <p>
+                    Students learn the importance of caring for nature
+                    and building a greener environment.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🤝</div>
+
+                <h3>Friendship & Community</h3>
+
+                <p>
+                    A welcoming school community helps students build
+                    friendships, confidence and communication skills.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Experience -->
+        <section class="experience">
+
+            <h2>A Happy Place to Learn & Grow</h2>
+
+            <p>
+                We believe that education goes beyond textbooks.
+                Students should have opportunities to explore their
+                interests, work with others, participate in activities
+                and create memorable school experiences.
+            </p>
+
+        </section>
+
+
+        <!-- Highlights -->
+        <div class="highlights">
+
+            <div class="highlight">
+                <strong>🎯</strong>
+                <span>Skill Development</span>
+            </div>
+
+            <div class="highlight">
+                <strong>🏆</strong>
+                <span>Healthy Competition</span>
+            </div>
+
+            <div class="highlight">
+                <strong>💡</strong>
+                <span>Creative Thinking</span>
+            </div>
+
+            <div class="highlight">
+                <strong>❤️</strong>
+                <span>Happy Learning</span>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+```

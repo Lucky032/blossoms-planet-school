@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import StaffForm
-from .models import Staff
+from .models import Staff, StaffAttendance
 from accounts.decorators import allowed_roles
 from django.contrib.auth.decorators import login_required
 
@@ -164,7 +164,7 @@ def staff_detail(request, pk):
 
 
 @login_required
-@allowed_roles("Admin")
+@allowed_roles("Admin", "Principal")
 def staff_delete(request, pk):
 
     staff = get_object_or_404(
@@ -190,5 +190,92 @@ def staff_delete(request, pk):
     return render(
         request,
         "staff/staff_confirm_delete.html",
+        context,
+    )
+
+@login_required
+@allowed_roles("Admin", "Principal")
+def staff_attendance(request):
+
+    selected_date = request.GET.get("date", "")
+
+    if not selected_date:
+        from datetime import date
+        selected_date = date.today().isoformat()
+
+    staff_members = Staff.objects.filter(
+        is_active=True
+    ).order_by("employee_id")
+
+    attendance_records = StaffAttendance.objects.filter(
+        date=selected_date,
+        staff__in=staff_members,
+    )
+
+    attendance_data = []
+
+    for staff in staff_members:
+
+        record = attendance_records.filter(
+            staff=staff
+        ).first()
+
+        attendance_data.append({
+            "staff": staff,
+            "record": record,
+        })
+
+    if request.method == "POST":
+
+        attendance_date = request.POST.get("attendance_date")
+
+        for staff in staff_members:
+
+            status = request.POST.get(
+                f"status_{staff.id}",
+                "Present",
+            )
+
+            leave_type = request.POST.get(
+                f"leave_type_{staff.id}",
+                "",
+            )
+
+            remarks = request.POST.get(
+                f"remarks_{staff.id}",
+                "",
+            )
+
+            if status != "Leave":
+                leave_type = ""
+
+            StaffAttendance.objects.update_or_create(
+                staff=staff,
+                date=attendance_date,
+                defaults={
+                    "status": status,
+                    "leave_type": leave_type or None,
+                    "remarks": remarks,
+                    "recorded_by": request.user,
+                },
+            )
+
+        messages.success(
+            request,
+            "Staff attendance saved successfully.",
+        )
+
+        return redirect(
+            f"/staff/attendance/?date={attendance_date}"
+        )
+
+    context = {
+        "attendance_data": attendance_data,
+        "selected_date": selected_date,
+    }
+
+    return render(
+        request,
+        "staff/staff_attendance.html",
         context,
     )

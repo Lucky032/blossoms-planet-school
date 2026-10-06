@@ -106,3 +106,65 @@ class Staff(models.Model):
 
     def __str__(self):
         return f"{self.employee_id} - {self.first_name} {self.last_name}"
+
+class StaffAttendance(models.Model):
+
+    STATUS_CHOICES = (
+        ("Present", "Present"),
+        ("Absent", "Absent"),
+        ("Leave", "Leave"),
+    )
+
+    LEAVE_TYPE_CHOICES = (
+        ("Paid", "Paid Leave"),
+        ("Unpaid", "Unpaid Leave"),
+    )
+
+    staff = models.ForeignKey(
+        Staff,
+        on_delete=models.CASCADE,
+        related_name="attendance",
+    )
+
+    date = models.DateField(
+        default=date.today,
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+    )
+
+    leave_type = models.CharField(
+        max_length=10,
+        choices=LEAVE_TYPE_CHOICES,
+        blank=True,
+        null=True,
+    )
+
+    remarks = models.TextField(
+        blank=True,
+    )
+
+    recorded_by = models.ForeignKey(
+        "auth.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="staff_attendance_records",
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        ordering = ["-date", "staff__employee_id"]
+        unique_together = ("staff", "date")
+
+    def __str__(self):
+        return f"{self.staff.employee_id} - {self.date} - {self.status}"
