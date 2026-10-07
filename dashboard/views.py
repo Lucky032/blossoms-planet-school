@@ -27,7 +27,8 @@ def dashboard(request):
     student_count = Student.objects.count()
 
     teacher_count = Staff.objects.filter(
-        role="Teacher"
+        role="Teacher",
+        is_active=True
     ).count()
 
     class_count = SchoolClass.objects.count()

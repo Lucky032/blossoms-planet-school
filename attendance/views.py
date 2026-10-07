@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
-from django.db.models import Q
+
+
 from academics.models import (
     SchoolClass,
     Section,
     Student,
-    TeacherAssignment,
 )
 
 from .models import Attendance
@@ -14,6 +14,10 @@ from .models import Attendance
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import allowed_roles
 
+
+# ============================================================
+# ATTENDANCE LIST
+# ============================================================
 
 @login_required
 @allowed_roles("Admin", "Principal", "Teacher")
@@ -32,40 +36,14 @@ def attendance_list(request):
         )
     )
 
-    user_role = request.user.userprofile.role
-
-    # ==========================================
-    # TEACHER ACCESS CONTROL
-    # ==========================================
-
-    if user_role == "Teacher":
-
-        attendance = attendance.filter(
-            student__school_class__teacher_assignments__teacher__user=request.user,
-            student__section__teacher_assignments__teacher__user=request.user,
-            student__academic_year__teacher_assignments__teacher__user=request.user,
-        ).distinct()
-
     # ==========================================
     # FILTERS
     # ==========================================
 
-    search = request.GET.get("search", "")
     selected_date = request.GET.get("date", "")
     school_class = request.GET.get("class", "")
     section = request.GET.get("section", "")
 
-    # ==========================================
-    # SEARCH
-    # ==========================================
-
-    if search:
-
-        attendance = attendance.filter(
-            Q(student__admission_number__icontains=search)
-            | Q(student__first_name__icontains=search)
-            | Q(student__last_name__icontains=search)
-        )
 
     # ==========================================
     # DATE FILTER
@@ -97,6 +75,8 @@ def attendance_list(request):
             student__section_id=section
         )
 
+        
+
     # ==========================================
     # ORDER
     # ==========================================
@@ -104,6 +84,27 @@ def attendance_list(request):
     attendance = attendance.order_by(
         "-date",
         "student__admission_number",
+    )
+
+    students = Student.objects.filter(
+        is_active=True
+    )
+
+    if school_class:
+        students = students.filter(
+            school_class_id=school_class
+        )
+
+    if section:
+        students = students.filter(
+            section_id=section
+        )
+
+    students = students.select_related(
+        "school_class",
+        "section"
+    ).order_by(
+        "admission_number"
     )
 
     # ==========================================
@@ -120,7 +121,10 @@ def attendance_list(request):
         status="Absent"
     ).count()
 
-    # Attendance percentage
+    # ==========================================
+    # ATTENDANCE PERCENTAGE
+    # ==========================================
+
     if total > 0:
 
         attendance_percentage = round(
@@ -218,50 +222,17 @@ def attendance_list(request):
 
     # ==========================================
     # FILTER OPTIONS
+    # ALL ROLES CAN SEE ALL CLASSES & SECTIONS
     # ==========================================
 
-    if user_role == "Teacher":
+    classes = SchoolClass.objects.all().order_by(
+        "display_order"
+    )
 
-        assignments = TeacherAssignment.objects.filter(
-            teacher__user=request.user
-        ).select_related(
-            "school_class",
-            "section",
-        )
-
-        teacher_class_ids = assignments.values_list(
-            "school_class_id",
-            flat=True
-        ).distinct()
-
-        teacher_section_ids = assignments.values_list(
-            "section_id",
-            flat=True
-        ).distinct()
-
-        classes = SchoolClass.objects.filter(
-            id__in=teacher_class_ids
-        ).order_by(
-            "display_order"
-        )
-
-        sections = Section.objects.filter(
-            id__in=teacher_section_ids
-        ).order_by(
-            "school_class",
-            "name"
-        )
-
-    else:
-
-        classes = SchoolClass.objects.all().order_by(
-            "display_order"
-        )
-
-        sections = Section.objects.all().order_by(
-            "school_class",
-            "name"
-        )
+    sections = Section.objects.all().order_by(
+        "school_class",
+        "name"
+    )
 
     # ==========================================
     # PAGINATION
@@ -284,12 +255,13 @@ def attendance_list(request):
 
     context = {
 
+        # Attendance
         "attendance": attendance_page,
 
         # Filters
         "classes": classes,
         "sections": sections,
-        "search": search,
+        "students": students,
         "date": selected_date,
         "selected_class": school_class,
         "selected_section": section,
@@ -313,108 +285,76 @@ def attendance_list(request):
         context,
     )
 
+
+# ============================================================
+# MARK ATTENDANCE
+# ============================================================
+
 @login_required
 @allowed_roles("Admin", "Principal", "Teacher")
 def mark_attendance(request):
 
-    if request.user.userprofile.role == "Teacher":
+    # ==========================================
+    # ALL ROLES CAN MARK ATTENDANCE
+    # FOR ALL CLASSES & SECTIONS
+    # ==========================================
 
-        teacher_assignments = TeacherAssignment.objects.filter(
-            teacher__user=request.user
-        ).select_related(
-            "school_class",
-            "section",
-            "academic_year",
-        )
+    classes = SchoolClass.objects.all().order_by(
+        "display_order"
+    )
 
-        allowed_class_ids = teacher_assignments.values_list(
-            "school_class_id",
-            flat=True
-        ).distinct()
+    sections = Section.objects.all().order_by(
+        "school_class",
+        "name"
+    )
 
-        allowed_section_ids = teacher_assignments.values_list(
-            "section_id",
-            flat=True
-        ).distinct()
-
-        classes = SchoolClass.objects.filter(
-            id__in=allowed_class_ids
-        ).order_by("display_order")
-
-        sections = Section.objects.filter(
-            id__in=allowed_section_ids
-        ).order_by(
-            "school_class",
-            "name"
-        )
-
-    else:
-
-        classes = SchoolClass.objects.all().order_by(
-            "display_order"
-        )
-
-        sections = Section.objects.all().order_by(
-            "school_class",
-            "name"
-        )
+    # ==========================================
+    # DEFAULT VALUES
+    # ==========================================
 
     students = Student.objects.none()
 
-    selected_class = request.GET.get("class", "")
-    selected_section = request.GET.get("section", "")
-    attendance_date = request.GET.get("date", "")
+    selected_class = request.GET.get(
+        "class",
+        ""
+    )
+
+    selected_section = request.GET.get(
+        "section",
+        ""
+    )
+
+    attendance_date = request.GET.get(
+        "date",
+        ""
+    )
 
     attendance_map = {}
 
     # ==========================================
-    # GET ACCESS VALIDATION
-    # ==========================================
-    if (
-        request.user.userprofile.role == "Teacher"
-        and selected_class
-        and selected_section
-    ):
-
-        has_assignment = TeacherAssignment.objects.filter(
-            teacher__user=request.user,
-            school_class_id=selected_class,
-            section_id=selected_section,
-        ).exists()
-
-        if not has_assignment:
-            messages.error(
-                request,
-                "You are not assigned to this class and section."
-            )
-
-            return redirect("mark_attendance")
-
-    # ==========================================
     # LOAD STUDENTS
     # ==========================================
+
     if selected_class and selected_section:
 
         students = Student.objects.filter(
             school_class_id=selected_class,
             section_id=selected_section,
-            is_active=True,
         ).order_by(
-            "admission_number",
+            "admission_number"
         )
+    selected_class = request.GET.get("class", "")
+    selected_section = request.GET.get("section", "")
+    attendance_date = request.GET.get("date", "")
 
-        # Teacher gets only assigned students
-        if request.user.userprofile.role == "Teacher":
-
-            students = students.filter(
-                school_class__teacher_assignments__teacher__user=request.user,
-                section__teacher_assignments__teacher__user=request.user,
-                academic_year__teacher_assignments__teacher__user=request.user,
-            ).distinct()
+    print("DEBUG CLASS:", selected_class)
+    print("DEBUG SECTION:", selected_section)
+    print("DEBUG DATE:", attendance_date)
 
     # ==========================================
     # EXISTING ATTENDANCE
     # ==========================================
+
     if students.exists() and attendance_date:
 
         existing_attendance = Attendance.objects.filter(
@@ -430,6 +370,7 @@ def mark_attendance(request):
     # ==========================================
     # POST
     # ==========================================
+
     if request.method == "POST":
 
         attendance_date = request.POST.get(
@@ -444,38 +385,18 @@ def mark_attendance(request):
             "selected_section"
         )
 
-        # Teacher POST validation
-        if request.user.userprofile.role == "Teacher":
-
-            has_assignment = TeacherAssignment.objects.filter(
-                teacher__user=request.user,
-                school_class_id=selected_class,
-                section_id=selected_section,
-            ).exists()
-
-            if not has_assignment:
-
-                messages.error(
-                    request,
-                    "You are not assigned to this class and section."
-                )
-
-                return redirect("mark_attendance")
+        # ==========================================
+        # LOAD SELECTED CLASS STUDENTS
+        # ==========================================
 
         students = Student.objects.filter(
             school_class_id=selected_class,
             section_id=selected_section,
-            is_active=True,
         )
 
-        # Teacher can submit only assigned students
-        if request.user.userprofile.role == "Teacher":
-
-            students = students.filter(
-                school_class__teacher_assignments__teacher__user=request.user,
-                section__teacher_assignments__teacher__user=request.user,
-                academic_year__teacher_assignments__teacher__user=request.user,
-            ).distinct()
+        # ==========================================
+        # SAVE ATTENDANCE
+        # ==========================================
 
         for student in students:
 
@@ -498,15 +419,26 @@ def mark_attendance(request):
             "Attendance saved successfully.",
         )
 
-        return redirect("attendance_list")
+        return redirect(
+            "attendance_list"
+        )
+
+    # ==========================================
+    # CONTEXT
+    # ==========================================
 
     context = {
+
         "classes": classes,
         "sections": sections,
+
         "students": students,
+
         "selected_class": selected_class,
         "selected_section": selected_section,
+
         "attendance_date": attendance_date,
+
         "attendance_map": attendance_map,
     }
 
@@ -515,5 +447,3 @@ def mark_attendance(request):
         "attendance/mark_attendance.html",
         context,
     )
-
-

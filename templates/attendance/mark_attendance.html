@@ -10,7 +10,10 @@ Mark Attendance
 
     <div class="card shadow-sm border-0">
 
-        <!-- Header -->
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
 
             <div>
@@ -24,9 +27,12 @@ Mark Attendance
                 </small>
             </div>
 
-            <a href="{% url 'attendance_list' %}" class="btn btn-outline-secondary">
+            <a href="{% url 'attendance_list' %}"
+               class="btn btn-outline-secondary">
+
                 <i class="bi bi-list-check"></i>
                 Attendance Records
+
             </a>
 
         </div>
@@ -34,13 +40,16 @@ Mark Attendance
 
         <div class="card-body">
 
-            <!-- ================= LOAD STUDENTS ================= -->
+            <!-- ===================================================== -->
+            <!-- LOAD STUDENTS -->
+            <!-- ===================================================== -->
 
             <form method="get">
 
                 <div class="row g-3">
 
-                    <!-- Class -->
+                    <!-- ================= CLASS ================= -->
+
                     <div class="col-md-4">
 
                         <label class="form-label fw-semibold">
@@ -49,6 +58,7 @@ Mark Attendance
 
                         <select
                             name="class"
+                            id="classSelect"
                             class="form-select"
                             required
                         >
@@ -59,14 +69,14 @@ Mark Attendance
 
                             {% for class in classes %}
 
-                            <option
-                                value="{{ class.id }}"
-                                {% if selected_class|stringformat:"s" == class.id|stringformat:"s" %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ class }}
-                            </option>
+                                <option
+                                    value="{{ class.id }}"
+                                    {% if selected_class|stringformat:"s" == class.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ class }}
+                                </option>
 
                             {% endfor %}
 
@@ -75,7 +85,8 @@ Mark Attendance
                     </div>
 
 
-                    <!-- Section -->
+                    <!-- ================= SECTION ================= -->
+
                     <div class="col-md-4">
 
                         <label class="form-label fw-semibold">
@@ -84,6 +95,7 @@ Mark Attendance
 
                         <select
                             name="section"
+                            id="sectionSelect"
                             class="form-select"
                             required
                         >
@@ -94,14 +106,15 @@ Mark Attendance
 
                             {% for section in sections %}
 
-                            <option
-                                value="{{ section.id }}"
-                                {% if selected_section|stringformat:"s" == section.id|stringformat:"s" %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ section }}
-                            </option>
+                                <option
+                                    value="{{ section.id }}"
+                                    data-class-id="{{ section.school_class_id }}"
+                                    {% if selected_section|stringformat:"s" == section.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ section.name }}
+                                </option>
 
                             {% endfor %}
 
@@ -110,7 +123,8 @@ Mark Attendance
                     </div>
 
 
-                    <!-- Date -->
+                    <!-- ================= DATE ================= -->
+
                     <div class="col-md-4">
 
                         <label class="form-label fw-semibold">
@@ -128,15 +142,18 @@ Mark Attendance
                     </div>
 
 
-                    <!-- Load Button -->
+                    <!-- ================= LOAD BUTTON ================= -->
+
                     <div class="col-12">
 
                         <button
                             type="submit"
                             class="btn btn-primary"
                         >
+
                             <i class="bi bi-search"></i>
                             Load Students
+
                         </button>
 
                     </div>
@@ -146,197 +163,243 @@ Mark Attendance
             </form>
 
 
+            <!-- ===================================================== -->
+            <!-- STUDENT ATTENDANCE -->
+            <!-- ===================================================== -->
+
             {% if students %}
 
-            <hr class="my-4">
+                <hr class="my-4">
 
 
-            <!-- ================= SELECTED INFO ================= -->
+                <!-- ================= SELECTED INFO ================= -->
 
-            <div class="alert alert-info d-flex align-items-center">
+                <div class="alert alert-info d-flex align-items-center">
 
-                <i class="bi bi-info-circle me-2"></i>
+                    <i class="bi bi-info-circle me-2"></i>
 
-                <div>
-                    <strong>Attendance Date:</strong>
-                    {{ attendance_date }}
+                    <div>
 
-                    <span class="mx-2">|</span>
+                        <strong>
+                            Attendance Date:
+                        </strong>
 
-                    <strong>Students:</strong>
-                    {{ students|length }}
-                </div>
+                        {{ attendance_date }}
 
-            </div>
+                        <span class="mx-2">
+                            |
+                        </span>
 
+                        <strong>
+                            Students:
+                        </strong>
 
-            <!-- ================= SAVE ATTENDANCE ================= -->
+                        {{ students|length }}
 
-            <form method="post">
-
-                {% csrf_token %}
-
-                <input
-                    type="hidden"
-                    name="attendance_date"
-                    value="{{ attendance_date }}"
-                >
-
-                <input
-                    type="hidden"
-                    name="selected_class"
-                    value="{{ selected_class }}"
-                >
-
-                <input
-                    type="hidden"
-                    name="selected_section"
-                    value="{{ selected_section }}"
-                >
-
-
-                <div class="table-responsive">
-
-                    <table class="table table-bordered table-hover align-middle">
-
-                        <thead class="table-dark">
-
-                            <tr>
-
-                                <th style="width: 160px;">
-                                    Admission No.
-                                </th>
-
-                                <th>
-                                    Student
-                                </th>
-
-                                <th style="width: 350px;">
-                                    Attendance
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            {% for student in students %}
-
-                            <tr>
-
-                                <!-- Admission Number -->
-                                <td>
-                                    <strong>
-                                        {{ student.admission_number }}
-                                    </strong>
-                                </td>
-
-
-                                <!-- Student -->
-                                <td>
-
-                                    <strong>
-                                        {{ student.first_name }}
-                                        {{ student.last_name }}
-                                    </strong>
-
-                                </td>
-
-
-                                <!-- Attendance -->
-                                <td>
-
-                                    <div class="d-flex gap-4">
-
-                                        <!-- Present -->
-                                        <div class="form-check">
-
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="status_{{ student.id }}"
-                                                value="Present"
-                                                id="present_{{ student.id }}"
-                                                checked
-                                            >
-
-                                            <label
-                                                class="form-check-label text-success fw-semibold"
-                                                for="present_{{ student.id }}"
-                                            >
-                                                <i class="bi bi-check-circle"></i>
-                                                Present
-                                            </label>
-
-                                        </div>
-
-
-                                        <!-- Absent -->
-                                        <div class="form-check">
-
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="status_{{ student.id }}"
-                                                value="Absent"
-                                                id="absent_{{ student.id }}"
-                                            >
-
-                                            <label
-                                                class="form-check-label text-danger fw-semibold"
-                                                for="absent_{{ student.id }}"
-                                            >
-                                                <i class="bi bi-x-circle"></i>
-                                                Absent
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
+                    </div>
 
                 </div>
 
 
-                <!-- Save Button -->
+                <!-- ================================================= -->
+                <!-- SAVE ATTENDANCE -->
+                <!-- ================================================= -->
 
-                <div class="d-flex justify-content-end mt-3">
+                <form method="post">
 
-                    <button
-                        type="submit"
-                        class="btn btn-success btn-lg"
+                    {% csrf_token %}
+
+
+                    <input
+                        type="hidden"
+                        name="attendance_date"
+                        value="{{ attendance_date }}"
                     >
-                        <i class="bi bi-check-circle"></i>
-                        Save Attendance
-                    </button>
 
-                </div>
 
-            </form>
+                    <input
+                        type="hidden"
+                        name="selected_class"
+                        value="{{ selected_class }}"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="selected_section"
+                        value="{{ selected_section }}"
+                    >
+
+
+                    <!-- ================= STUDENT TABLE ================= -->
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-hover align-middle">
+
+                            <thead class="table-dark">
+
+                                <tr>
+
+                                    <th style="width: 160px;">
+                                        Admission No.
+                                    </th>
+
+                                    <th>
+                                        Student
+                                    </th>
+
+                                    <th style="width: 350px;">
+                                        Attendance
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for student in students %}
+
+                                    <tr>
+
+                                        <!-- Admission Number -->
+
+                                        <td>
+
+                                            <strong>
+                                                {{ student.admission_number }}
+                                            </strong>
+
+                                        </td>
+
+
+                                        <!-- Student -->
+
+                                        <td>
+
+                                            <strong>
+
+                                                {{ student.first_name }}
+
+                                                {{ student.last_name }}
+
+                                            </strong>
+
+                                        </td>
+
+
+                                        <!-- Attendance -->
+
+                                        <td>
+
+                                            <div class="d-flex gap-4">
+
+                                                <!-- ================= PRESENT ================= -->
+
+                                                <div class="form-check">
+
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="status_{{ student.id }}"
+                                                        value="Present"
+                                                        id="present_{{ student.id }}"
+                                                        {% if attendance_map|get_item:student.id == "Present" or not attendance_map|get_item:student.id %}
+                                                            checked
+                                                        {% endif %}
+                                                    >
+
+                                                    <label
+                                                        class="form-check-label text-success fw-semibold"
+                                                        for="present_{{ student.id }}"
+                                                    >
+
+                                                        <i class="bi bi-check-circle"></i>
+
+                                                        Present
+
+                                                    </label>
+
+                                                </div>
+
+
+                                                <!-- ================= ABSENT ================= -->
+
+                                                <div class="form-check">
+
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="status_{{ student.id }}"
+                                                        value="Absent"
+                                                        id="absent_{{ student.id }}"
+                                                        {% if attendance_map|get_item:student.id == "Absent" %}
+                                                            checked
+                                                        {% endif %}
+                                                    >
+
+                                                    <label
+                                                        class="form-check-label text-danger fw-semibold"
+                                                        for="absent_{{ student.id }}"
+                                                    >
+
+                                                        <i class="bi bi-x-circle"></i>
+
+                                                        Absent
+
+                                                    </label>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- ================= SAVE BUTTON ================= -->
+
+                    <div class="d-flex justify-content-end mt-3">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success btn-lg"
+                        >
+
+                            <i class="bi bi-check-circle"></i>
+
+                            Save Attendance
+
+                        </button>
+
+                    </div>
+
+                </form>
+
 
             {% else %}
 
                 {% if selected_class and selected_section %}
 
-                <div class="alert alert-warning mt-4">
+                    <div class="alert alert-warning mt-4">
 
-                    <i class="bi bi-exclamation-triangle"></i>
+                        <i class="bi bi-exclamation-triangle"></i>
 
-                    No active students found for the selected
-                    class and section.
+                        No active students found for the selected
+                        class and section.
 
-                </div>
+                    </div>
 
                 {% endif %}
 
@@ -347,5 +410,145 @@ Mark Attendance
     </div>
 
 </div>
+
+
+<!-- ============================================================= -->
+<!-- CLASS → SECTION FILTER -->
+<!-- ============================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const classSelect = document.getElementById("classSelect");
+    const sectionSelect = document.getElementById("sectionSelect");
+
+    if (!classSelect || !sectionSelect) {
+        return;
+    }
+
+
+    // Store all section options
+    const allSections = Array.from(
+        sectionSelect.querySelectorAll("option[data-class-id]")
+    );
+
+
+    function filterSections() {
+
+        const selectedClass = classSelect.value;
+
+        const currentSection = sectionSelect.value;
+
+
+        // Clear current sections
+        sectionSelect.innerHTML = "";
+
+
+        // Default option
+        const defaultOption = document.createElement("option");
+
+        defaultOption.value = "";
+
+        defaultOption.textContent = "Select Section";
+
+        sectionSelect.appendChild(defaultOption);
+
+
+        // No class selected
+        if (!selectedClass) {
+
+            sectionSelect.disabled = true;
+
+            return;
+        }
+
+
+        // Enable section dropdown
+        sectionSelect.disabled = false;
+
+
+        let matchingSections = 0;
+
+
+        allSections.forEach(function (option) {
+
+            const sectionClassId =
+                option.getAttribute("data-class-id");
+
+
+            if (sectionClassId === selectedClass) {
+
+                const newOption =
+                    option.cloneNode(true);
+
+
+                sectionSelect.appendChild(newOption);
+
+                matchingSections++;
+
+            }
+
+        });
+
+
+        // Restore previously selected section
+        if (currentSection) {
+
+            const matchingOption =
+                sectionSelect.querySelector(
+                    'option[value="' + currentSection + '"]'
+                );
+
+
+            if (matchingOption) {
+
+                matchingOption.selected = true;
+
+            }
+
+        }
+
+
+        // No sections available
+        if (matchingSections === 0) {
+
+            const noSectionOption =
+                document.createElement("option");
+
+            noSectionOption.value = "";
+
+            noSectionOption.textContent =
+                "No sections available";
+
+            sectionSelect.appendChild(
+                noSectionOption
+            );
+
+        }
+
+    }
+
+
+    // Class changed
+    classSelect.addEventListener(
+        "change",
+        function () {
+
+            // Clear selected section when class changes
+            sectionSelect.value = "";
+
+            filterSections();
+
+        }
+    );
+
+
+    // Initial load
+    filterSections();
+
+});
+
+</script>
 
 {% endblock %}
